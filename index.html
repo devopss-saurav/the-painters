@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>The Painters — Original Artworks</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{width:100%;scroll-behavior:smooth;}
+body{width:100%;background:#0a0805;color:#e8ddd0;font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* ── VARIABLES ── */
+:root{
+  --gold:#c9a84c;--gold2:#e8c97a;--cream:#f0e8d8;
+  --muted:#7a6e60;--surface:#1a1510;--bg2:#120f0a;
+  --accent:#8b3a2a;
+}
+body.light{
+  background:#faf8f4;
+  color:#3c3028;
+}
+/* Nav */
+body.light nav{background:rgba(250,248,244,0.97);border-bottom:1px solid rgba(140,100,30,0.15);}
+body.light .logo{color:#8a6010;}
+body.light .nav-links a{color:#6b5840;}
+body.light .cart-btn{border-color:#8a6010;color:#8a6010;}
+body.light .theme-btn{border-color:rgba(140,100,30,0.3);color:#8a6010;}
+
+/* Hero */
+body.light .hero{background:#faf8f4;}
+body.light .hero-h1{color:#2c2218;}
+body.light .hero-p{color:#7a6e60;}
+body.light .hero-tag{color:#8a6010;}
+body.light .hero-scroll-line{background:#8a6010;}
+body.light .hero-scroll-text{color:#7a6e60;}
+body.light .btn-ghost{color:#3c3028;border-color:rgba(60,48,40,0.3);}
+body.light .btn-ghost:hover{border-color:#8a6010;color:#8a6010;}
+
+/* Sections */
+body.light .sec-title{color:#2c2218;}
+body.light .sec-label{color:#8a6010;}
+body.light .marquee{background:#f0ece3;}
+body.light .marquee-item{color:#8a6010;}
+
+/* Cards */
+body.light .card{background:#ffffff;border-color:rgba(140,100,30,0.15);}
+body.light .card:hover{border-color:rgba(140,100,30,0.4);}
+body.light .card-name{color:#2c2218;}
+body.light .card-cat{color:#8a6010;}
+body.light .card-dims{color:#9a8d7e;}
+body.light .card-price{color:#7a5a10;}
+body.light .wish-btn{color:#9a8d7e;}
+
+/* Stats */
+body.light .stats{background:#f0ece3;}
+body.light .stat-n{color:#7a5a10;}
+body.light .stat-l{color:#9a8d7e;}
+
+/* About */
+body.light .about-body{color:#6b5840;}
+body.light .about-quote{background:#fff;border-color:rgba(140,100,30,0.2);}
+body.light .about-quote p{color:#2c2218;}
+
+/* Commission */
+body.light .commission-bg{background:#f0ece3;}
+body.light .adm-input, body.light .f-input, body.light .f-select, body.light .f-area{background:#fff;border-color:rgba(140,100,30,0.2);color:#3c3028;}
+body.light .step-t h4{color:#2c2218;}
+body.light .step-t p{color:#6b5840;}
+body.light .step-n{color:rgba(140,100,30,0.2);}
+
+/* Testimonials */
+body.light .test-card{background:#ffffff;border-color:rgba(140,100,30,0.12);}
+body.light .test-text{color:#2c2218;}
+body.light .test-name{color:#2c2218;}
+body.light .test-loc{color:#9a8d7e;}
+
+/* Newsletter */
+body.light .newsletter{background:#fff;border-color:rgba(140,100,30,0.12);}
+body.light .newsletter h2{color:#2c2218;}
+body.light .newsletter p{color:#7a6e60;}
+body.light .nl-input{background:#faf8f4;border-color:rgba(140,100,30,0.2);color:#3c3028;}
+
+/* Footer */
+body.light footer{border-color:rgba(140,100,30,0.12);}
+body.light .foot-logo{color:#8a6010;}
+body.light .foot-tag{color:#7a6e60;}
+body.light .foot-col h4{color:#8a6010;}
+body.light .foot-col a{color:#7a6e60;}
+body.light .foot-col a:hover{color:#2c2218;}
+body.light .foot-bottom{border-color:rgba(140,100,30,0.1);}
+body.light .foot-bottom p{color:#9a8d7e;}
+
+/* Cart */
+body.light .cart-drawer{background:#faf8f4;}
+body.light .cart-title{color:#8a6010;}
+body.light .cart-item-name, body.light .ci-name{color:#2c2218;}
+body.light .cart-overlay.open{background:rgba(240,236,227,0.7);}
+
+/* Filters */
+body.light .fbtn{color:#9a8d7e;border-color:rgba(140,100,30,0.2);}
+body.light .fbtn.on, body.light .fbtn:hover{color:#8a6010;border-color:#8a6010;background:rgba(140,100,30,0.07);}
+body.light #priceVal{color:#7a5a10;}
+
+/* Orbs invisible in light mode */
+body.light .hero-orb{opacity:0.3;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem 5rem;
+  background:rgba(10,8,5,0.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,168,76,0.08);
+}
+.logo{font-family:'Cinzel',serif;font-size:1.5rem;letter-spacing:0.25em;color:var(--gold);text-decoration:none;}
+.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-links a{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--gold2);}
+.theme-btn{background:none;border:1px solid rgba(201,168,76,0.3);color:var(--gold);width:36px;height:36px;font-size:1rem;cursor:pointer;transition:background .3s;}
+.theme-btn:hover{background:rgba(201,168,76,0.1);}
+.cart-btn{background:none;border:1px solid var(--gold);color:var(--gold);padding:.5rem 1.4rem;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;position:relative;}
+.cart-btn:hover{background:var(--gold);color:#0a0805;}
+.cart-badge{position:absolute;top:-7px;right:-7px;background:var(--accent);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;display:none;align-items:center;justify-content:center;}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:#0a0805;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s;}
+#loader.done{opacity:0;pointer-events:none;}
+.ld-title{font-family:'Cinzel',serif;font-size:clamp(1.4rem,8vw,3rem);letter-spacing:clamp(.15em,.4em,.6em);color:var(--gold);animation:ldPulse 1.5s ease infinite alternate;text-align:center;padding:0 1rem;}
+.ld-bar{width:0;height:1px;background:var(--gold);margin-top:1.5rem;animation:ldBar 2s ease forwards;}
+.ld-sub{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:1rem;opacity:0;animation:ldFade 1s ease .8s forwards;text-align:center;}
+@keyframes ldPulse{from{opacity:.4}to{opacity:1}}
+@keyframes ldBar{to{width:200px}}
+@keyframes ldFade{to{opacity:1}}
+
+/* ── HERO ── */
+.hero{
+  width:100%;min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:8rem 2rem 5rem;
+  position:relative;overflow:hidden;
+  background:#0a0805;
+}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;}
+.hero-orb.a{width:400px;height:400px;background:rgba(201,168,76,.07);top:5%;left:-5%;animation:orb 9s ease-in-out infinite alternate;}
+.hero-orb.b{width:300px;height:300px;background:rgba(139,58,42,.1);bottom:10%;right:0;animation:orb 7s ease-in-out infinite alternate-reverse;}
+.hero-orb.c{width:200px;height:200px;background:rgba(201,168,76,.05);top:55%;left:45%;animation:orb 11s ease-in-out infinite alternate;}
+@keyframes orb{from{transform:translate(0,0)}to{transform:translate(40px,-50px)}}
+.hero-tag{font-size:.68rem;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;opacity:0;animation:up .9s ease .2s forwards;}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,9vw,7.5rem);font-weight:300;line-height:.95;text-align:center;color:var(--cream);opacity:0;animation:up .9s ease .4s forwards;}
+.hero-h1 em{font-style:italic;color:var(--gold2);}
+.hero-p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--muted);margin-top:1.5rem;max-width:480px;text-align:center;line-height:1.9;opacity:0;animation:up .9s ease .6s forwards;}
+.hero-btns{margin-top:2.5rem;display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;opacity:0;animation:up .9s ease .8s forwards;}
+.btn-gold{background:var(--gold);color:#0a0805;border:none;padding:.95rem 2.4rem;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);}
+.btn-ghost{background:none;color:var(--cream);border:1px solid rgba(240,232,216,.25);padding:.95rem 2.4rem;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;opacity:0;animation:up .9s ease 1.2s forwards;}
+.hero-scroll-line{width:1px;height:55px;background:var(--gold);animation:scrollAnim 2s ease infinite;}
+.hero-scroll-text{font-size:.6rem;letter-spacing:.35em;color:var(--muted);text-transform:uppercase;}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MARQUEE ── */
+.marquee{overflow:hidden;border-top:1px solid rgba(201,168,76,.12);border-bottom:1px solid rgba(201,168,76,.12);padding:.9rem 0;background:var(--bg2);}
+.marquee-inner{display:flex;gap:3rem;white-space:nowrap;animation:marquee 22s linear infinite;}
+.marquee-item{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.4em;color:var(--gold);opacity:.55;flex-shrink:0;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTION COMMON ── */
+.sec{width:100%;padding:7rem 5rem;}
+.sec-label{font-size:.63rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:var(--cream);line-height:1.05;}
+.sec-title em{font-style:italic;color:var(--gold2);}
+
+/* ── GALLERY ── */
+.gallery-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
+.filters{display:flex;gap:.7rem;flex-wrap:wrap;}
+.fbtn{background:none;border:1px solid rgba(201,168,76,.2);color:var(--muted);padding:.35rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+.fbtn:hover,.fbtn.on{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.06);}
+.price-row{display:flex;align-items:center;gap:1.2rem;margin-bottom:2.5rem;}
+.price-row label{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+#priceRange{-webkit-appearance:none;width:200px;height:3px;background:rgba(201,168,76,.2);outline:none;cursor:pointer;}
+#priceRange::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--gold);cursor:pointer;}
+#priceVal{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold2);min-width:80px;}
+
+/* ── CARD ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem;}
+.card{background:var(--surface);border:1px solid rgba(201,168,76,.1);transition:transform .4s cubic-bezier(.16,1,.3,1),border-color .3s;opacity:0;transform:translateY(30px);}
+.card.show{animation:cardUp .7s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes cardUp{to{opacity:1;transform:translateY(0)}}
+.card:hover{transform:translateY(-7px);border-color:rgba(201,168,76,.35);}
+
+/* ── PAINTING IMAGE AREA ── */
+.card-img{position:relative;width:100%;padding-top:125%;overflow:hidden;}
+.card-img canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
+
+.card-img{overflow:hidden;}
+
+/* overlay */
+.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,5,.92) 0%,rgba(10,8,5,.1) 55%,transparent 100%);opacity:0;transition:opacity .35s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;gap:.5rem;}
+.card:hover .card-overlay{opacity:1;}
+.ov-add{background:var(--gold);color:#0a0805;border:none;width:100%;padding:.85rem;font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transform:translateY(8px);transition:transform .35s,background .2s;}
+.card:hover .ov-add{transform:translateY(0);}
+.ov-add:hover{background:var(--gold2);}
+.ov-row{display:flex;gap:.4rem;transform:translateY(8px);transition:transform .35s .04s;}
+.card:hover .ov-row{transform:translateY(0);}
+.ov-btn{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:var(--cream);padding:.45rem .3rem;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.ov-btn:hover{background:rgba(255,255,255,.14);}
+
+/* sold stamp */
+.badge{position:absolute;top:.8rem;left:.8rem;background:var(--accent);color:#fff;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;padding:.25rem .7rem;z-index:3;}
+.sold-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;pointer-events:none;}
+.sold-stamp{border:3px solid rgba(160,50,30,.8);color:rgba(160,50,30,.9);font-family:'Cinzel',serif;font-size:1.3rem;letter-spacing:.4em;padding:.5rem 1.3rem;transform:rotate(-12deg);animation:stamp .5s cubic-bezier(.36,.07,.19,.97) both;}
+@keyframes stamp{0%{opacity:0;transform:rotate(-12deg) scale(3)}70%{transform:rotate(-12deg) scale(.95)}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
+
+/* card info */
+.card-info{padding:1.2rem 1.3rem;}
+.card-cat{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:.4rem;}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--cream);margin-bottom:.25rem;cursor:pointer;transition:color .2s;}
+.card-name:hover{color:var(--gold2);}
+.card-dims{font-size:.72rem;color:var(--muted);margin-bottom:.9rem;}
+.card-foot{display:flex;align-items:center;justify-content:space-between;}
+.card-price{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--gold2);}
+.wish-btn{background:none;border:1px solid rgba(201,168,76,.2);color:var(--muted);padding:.4rem .7rem;cursor:pointer;transition:all .3s;font-size:.95rem;}
+.wish-btn:hover,.wish-btn.on{border-color:var(--accent);color:var(--accent);}
+
+/* ── LIGHTBOX ── */
+#lb{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;}
+#lb.open{opacity:1;pointer-events:all;}
+.lb-bg{position:absolute;inset:0;background:rgba(5,4,3,.9);backdrop-filter:blur(8px);}
+.lb-box{position:relative;z-index:1;display:grid;grid-template-columns:1fr 360px;max-width:900px;width:92%;background:var(--surface);border:1px solid rgba(201,168,76,.2);transform:scale(.94);transition:transform .35s cubic-bezier(.16,1,.3,1);}
+#lb.open .lb-box{transform:scale(1);}
+.lb-img{position:relative;width:100%;padding-top:120%;overflow:hidden;}
+.lb-img canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
+.lb-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);border:1px solid rgba(201,168,76,.3);color:var(--gold);width:42px;height:42px;font-size:1.3rem;cursor:pointer;transition:all .3s;z-index:3;}
+.lb-arr:hover{background:var(--gold);color:#0a0805;}
+.lb-prev{left:.8rem;}
+.lb-next{right:.8rem;}
+.lb-side{padding:2rem;display:flex;flex-direction:column;justify-content:space-between;overflow-y:auto;max-height:80vh;}
+.lb-cat{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;}
+.lb-name{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--cream);margin-bottom:.4rem;line-height:1.1;}
+.lb-dims{font-size:.78rem;color:var(--muted);padding-bottom:1.2rem;border-bottom:1px solid rgba(201,168,76,.1);margin-bottom:1.2rem;}
+.lb-price{font-family:'Cormorant Garamond',serif;font-size:2.3rem;color:var(--gold2);margin-bottom:1.5rem;}
+.lb-add{background:var(--gold);color:#0a0805;border:none;width:100%;padding:.9rem;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;margin-bottom:.7rem;transition:background .2s;}
+.lb-add:hover{background:var(--gold2);}
+.lb-share{display:flex;gap:.5rem;}
+.lb-sh{flex:1;background:none;border:1px solid rgba(201,168,76,.2);color:var(--muted);padding:.5rem .3rem;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+.lb-sh:hover{border-color:var(--gold);color:var(--gold);}
+.lb-close{position:absolute;top:.8rem;right:.8rem;background:rgba(0,0,0,.5);border:1px solid rgba(201,168,76,.3);color:var(--gold);width:38px;height:38px;font-size:1rem;cursor:pointer;z-index:5;transition:all .3s;}
+.lb-close:hover{background:var(--gold);color:#0a0805;}
+
+/* ── STATS ── */
+.stats{width:100%;padding:5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center;background:var(--bg2);border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:var(--gold2);line-height:1;}
+.stat-l{font-size:.67rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:.4rem;}
+
+/* ── INSTAGRAM ── */
+.insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:2.5rem;}
+.insta-cell{position:relative;width:100%;padding-top:100%;overflow:hidden;cursor:pointer;}
+.insta-cell canvas{position:absolute;top:0;left:0;width:100%;height:100%;transition:transform .5s cubic-bezier(.16,1,.3,1);}
+.insta-cell:hover canvas{transform:scale(1.07);}
+.insta-hov{position:absolute;inset:0;background:rgba(10,8,5,.55);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;}
+.insta-cell:hover .insta-hov{opacity:1;}
+.insta-hov-name{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:var(--cream);}
+.insta-hov-price{font-size:.7rem;letter-spacing:.15em;color:var(--gold);}
+
+/* ── ABOUT ── */
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center;}
+.about-body{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--muted);line-height:2;margin:1.5rem 0 2rem;}
+.about-vis{position:relative;width:100%;padding-top:130%;}
+.about-vis::before{content:'';position:absolute;inset:-16px 16px 16px -16px;border:1px solid rgba(201,168,76,.18);}
+.about-vis canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
+.about-quote{position:absolute;bottom:-1.5rem;right:-1.5rem;background:var(--surface);border:1px solid rgba(201,168,76,.2);padding:1.3rem;max-width:200px;z-index:2;}
+.about-quote p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:var(--cream);line-height:1.6;}
+.about-quote cite{display:block;margin-top:.6rem;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-style:normal;}
+
+/* ── COMMISSION ── */
+.commission-bg{background:var(--bg2);}
+.comm-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.comm-form{display:flex;flex-direction:column;gap:1rem;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.f-group{display:flex;flex-direction:column;gap:.4rem;}
+.f-label{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.8;}
+.f-input,.f-select,.f-area{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);color:#e8ddd0;padding:.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .3s;width:100%;}
+.f-input:focus,.f-select:focus,.f-area:focus{border-color:var(--gold);}
+.f-input::placeholder,.f-area::placeholder{color:var(--muted);}
+.f-select{appearance:none;}
+.f-select option{background:#1a1510;}
+.f-area{resize:vertical;min-height:110px;line-height:1.6;}
+.comm-steps{display:flex;flex-direction:column;gap:1.8rem;padding-top:.5rem;}
+.comm-step{display:flex;gap:1.2rem;}
+.step-n{font-family:'Cinzel',serif;font-size:2.2rem;color:rgba(201,168,76,.18);line-height:1;flex-shrink:0;}
+.step-t h4{font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:var(--cream);margin-bottom:.4rem;}
+.step-t p{font-size:.83rem;color:var(--muted);line-height:1.6;}
+
+/* ── TESTIMONIALS ── */
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:3rem;}
+.test-card{background:var(--surface);border:1px solid rgba(201,168,76,.1);padding:2rem;transition:border-color .3s,transform .3s;}
+.test-card:hover{border-color:rgba(201,168,76,.28);transform:translateY(-4px);}
+.stars{color:var(--gold);font-size:.78rem;margin-bottom:1rem;}
+.test-text{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--cream);line-height:1.8;margin-bottom:1.3rem;}
+.test-auth{display:flex;align-items:center;gap:.9rem;}
+.test-av{width:42px;height:42px;border-radius:50%;background:rgba(201,168,76,.12);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);}
+.test-name{font-size:.83rem;font-weight:500;color:var(--cream);}
+.test-loc{font-size:.7rem;color:var(--muted);margin-top:.15rem;}
+
+/* ── NEWSLETTER ── */
+.newsletter{width:100%;padding:5rem;text-align:center;background:var(--surface);border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);position:relative;overflow:hidden;}
+.newsletter::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 50% 50%,rgba(201,168,76,.05),transparent);}
+.newsletter h2{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;color:var(--cream);margin-bottom:.8rem;position:relative;}
+.newsletter p{color:var(--muted);margin-bottom:2rem;position:relative;}
+.nl-form{display:flex;max-width:460px;margin:0 auto;position:relative;}
+.nl-input{flex:1;background:rgba(240,232,216,.04);border:1px solid rgba(201,168,76,.2);border-right:none;color:#e8ddd0;padding:.9rem 1.3rem;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .3s;}
+.nl-input:focus{border-color:var(--gold);}
+.nl-input::placeholder{color:var(--muted);}
+.nl-btn{background:var(--gold);color:#0a0805;border:1px solid var(--gold);padding:.9rem 1.8rem;font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s;}
+.nl-btn:hover{background:var(--gold2);}
+
+/* ── FOOTER ── */
+footer{width:100%;padding:4rem 5rem;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;border-top:1px solid rgba(201,168,76,.1);}
+.foot-logo{display:block;font-family:'Cinzel',serif;font-size:1.4rem;letter-spacing:.25em;color:var(--gold);text-decoration:none;margin-bottom:.9rem;}
+.foot-tag{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--muted);line-height:1.8;max-width:240px;}
+.foot-col h4{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+.foot-col a{display:block;color:var(--muted);text-decoration:none;font-size:.83rem;margin-bottom:.7rem;transition:color .3s;}
+.foot-col a:hover{color:var(--cream);}
+.foot-bottom{width:100%;padding:1.5rem 5rem;display:flex;justify-content:space-between;border-top:1px solid rgba(201,168,76,.07);}
+.foot-bottom p{font-size:.72rem;color:var(--muted);}
+
+/* ── FLOATING WA ── */
+.wa{position:fixed;bottom:2rem;right:2rem;z-index:400;}
+.wa-btn{background:#25D366;color:#fff;border:none;width:56px;height:56px;border-radius:50%;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.3);animation:waPing 3s ease infinite;}
+.wa-btn:hover{transform:scale(1.1);}
+.wa-tip{position:absolute;bottom:0;right:70px;background:var(--surface);border:1px solid rgba(201,168,76,.2);color:var(--cream);font-size:.73rem;padding:.45rem .9rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s;transform:translateY(-50%);top:50%;}
+.wa:hover .wa-tip{opacity:1;}
+@keyframes waPing{0%,100%{box-shadow:0 4px 18px rgba(37,211,102,.3)}50%{box-shadow:0 4px 26px rgba(37,211,102,.55)}}
+
+/* ── CART ── */
+.cart-overlay{position:fixed;inset:0;background:rgba(5,4,3,.65);z-index:199;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);}
+.cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-drawer{position:fixed;right:0;top:0;bottom:0;width:400px;background:var(--bg2);border-left:1px solid rgba(201,168,76,.15);z-index:200;padding:2rem;transform:translateX(100%);transition:transform .45s cubic-bezier(.16,1,.3,1);overflow-y:auto;display:flex;flex-direction:column;}
+.cart-drawer.open{transform:translateX(0);}
+.cart-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;}
+.cart-title{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.2em;color:var(--gold);}
+.cart-x{background:none;border:1px solid rgba(201,168,76,.2);color:var(--muted);width:34px;height:34px;cursor:pointer;font-size:1rem;transition:all .3s;}
+.cart-x:hover{border-color:var(--gold);color:var(--gold);}
+.cart-empty{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--muted);text-align:center;padding:3rem 0;}
+.cart-item{display:flex;gap:.9rem;padding:1rem 0;border-bottom:1px solid rgba(201,168,76,.07);}
+.ci-thumb{width:65px;height:82px;flex-shrink:0;}
+.ci-thumb canvas{width:100%;height:100%;display:block;}
+.ci-name{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream);margin-bottom:.2rem;}
+.ci-price{font-size:.82rem;color:var(--gold2);}
+.ci-rm{background:none;border:none;color:var(--muted);cursor:pointer;align-self:start;font-size:.8rem;margin-left:auto;transition:color .2s;}
+.ci-rm:hover{color:var(--accent);}
+.cart-footer{margin-top:auto;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,.12);}
+.cart-total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.2rem;}
+.ct-label{font-size:.67rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);}
+.ct-price{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold2);}
+.checkout-btn{width:100%;background:var(--gold);color:#0a0805;border:none;padding:1rem;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s;}
+.checkout-btn:hover{background:var(--gold2);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(70px);background:var(--surface);border:1px solid rgba(201,168,76,.28);color:var(--cream);padding:.9rem 1.8rem;font-size:.82rem;z-index:600;transition:transform .4s cubic-bezier(.16,1,.3,1);white-space:nowrap;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── BEHOLD WIDGET ── */
+behold-widget{
+  --behold-grid-gap: 4px;
+  --behold-border-radius: 0;
+  width: 100%;
+  display: block;
+}
+/* Hide Behold watermark */
+behold-widget::part(credit),
+behold-widget::part(branding),
+[class*="behold-credit"],
+[class*="behold-branding"],
+a[href*="behold.so"]{
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+/* ── CHECKOUT MODAL ── */
+.checkout-modal-bg{position:fixed;inset:0;background:rgba(5,4,3,.85);z-index:800;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.checkout-modal-bg.open{display:flex;}
+.checkout-modal{background:#1a1510;border:1px solid rgba(201,168,76,.2);width:90%;max-width:500px;max-height:90vh;overflow-y:auto;}
+.cm-header{padding:1.5rem 2rem;border-bottom:1px solid rgba(201,168,76,.1);display:flex;align-items:center;justify-content:space-between;}
+.cm-title{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.2em;color:var(--gold);}
+.cm-close{background:none;border:1px solid rgba(201,168,76,.2);color:var(--muted);width:34px;height:34px;cursor:pointer;font-size:1rem;transition:all .3s;}
+.cm-close:hover{border-color:var(--gold);color:var(--gold);}
+.cm-body{padding:1.8rem 2rem;}
+.cm-order-summary{margin-bottom:1.5rem;}
+.cm-summary-title{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;}
+.cm-item{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid rgba(201,168,76,.06);font-size:.85rem;}
+.cm-item-name{color:var(--cream);}
+.cm-item-price{color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:1rem;}
+.cm-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(201,168,76,.15);}
+.cm-total-label{font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);}
+.cm-total-price{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold2);}
+.cm-divider{height:1px;background:rgba(201,168,76,.1);margin:1.2rem 0;}
+.cm-form-title{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.cm-fg{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.9rem;}
+.cm-label{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8;}
+.cm-input{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);color:#e8ddd0;padding:.75rem .9rem;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .3s;width:100%;}
+.cm-input:focus{border-color:var(--gold);}
+.cm-input::placeholder{color:var(--muted);}
+.cm-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.cm-payment-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-bottom:1.2rem;}
+.cm-pay-opt{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);padding:.7rem;text-align:center;cursor:pointer;transition:all .3s;}
+.cm-pay-opt:hover,.cm-pay-opt.selected{border-color:var(--gold);background:rgba(201,168,76,.1);}
+.cm-pay-opt-icon{font-size:1.3rem;display:block;margin-bottom:.3rem;}
+.cm-pay-opt-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);}
+.cm-pay-now{width:100%;background:var(--gold);color:#0a0805;border:none;padding:1.1rem;font-family:'DM Sans',sans-serif;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .3s;margin-top:.5rem;}
+.cm-pay-now:hover{background:var(--gold2);}
+.cm-pay-now:disabled{opacity:.5;cursor:not-allowed;}
+.cm-cod-note{font-size:.75rem;color:var(--muted);line-height:1.6;padding:.8rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);margin-top:.8rem;display:none;}
+.cm-success{text-align:center;padding:3rem 2rem;}
+.cm-success-icon{font-size:3rem;margin-bottom:1rem;}
+.cm-success h3{font-family:'Cinzel',serif;font-size:1.2rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.8rem;}
+.cm-success p{color:var(--muted);font-size:.88rem;line-height:1.7;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .nav-links a{display:none;}
+  .nav-links{gap:.6rem;}
+  .cart-btn{padding:.45rem .9rem;font-size:.65rem;letter-spacing:.1em;}
+  nav{padding:1rem 1.2rem;}
+  .logo{font-size:1.1rem;letter-spacing:.15em;white-space:nowrap;}
+}
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem;}
+  .sec{padding:5rem 1.5rem;}
+  .stats{padding:4rem 1.5rem;grid-template-columns:1fr 1fr;}
+  .about-inner,.comm-inner{grid-template-columns:1fr;gap:3rem;}
+  .test-grid{grid-template-columns:1fr;}
+  .insta-grid{grid-template-columns:repeat(2,1fr);}
+  footer{grid-template-columns:1fr 1fr;padding:3rem 1.5rem;}
+  .foot-bottom{padding:1.5rem;}
+  .lb-box{grid-template-columns:1fr;}
+  .lb-side{max-height:none;}
+  .cart-drawer{width:100%;}
+  .f-row{grid-template-columns:1fr;}
+}
+
+/* ── ADMIN PANEL ── */
+#adminPanel{position:fixed;inset:0;z-index:1000;background:#0d0a07;display:none;flex-direction:column;overflow:hidden;}
+#adminPanel.open{display:flex;}
+.adm-topbar{background:rgba(13,10,7,.98);border-bottom:1px solid rgba(201,168,76,.12);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.adm-logo{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.25em;color:var(--gold);}
+.adm-tabs{display:flex;gap:.6rem;}
+.adm-tab{background:none;border:1px solid rgba(201,168,76,.2);color:var(--muted);padding:.35rem 1rem;font-family:'DM Sans',sans-serif;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+.adm-tab.on{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.07);}
+.adm-close-btn{background:none;border:1px solid rgba(139,58,42,.3);color:var(--muted);padding:.35rem .9rem;font-size:.68rem;letter-spacing:.1em;cursor:pointer;transition:all .3s;}
+.adm-close-btn:hover{border-color:var(--accent);color:var(--accent);}
+.adm-body{flex:1;overflow-y:auto;padding:1.8rem 2rem;}
+.adm-panel{display:none;}.adm-panel.on{display:block;}
+
+/* admin stats */
+.adm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.8rem;}
+.adm-stat{background:#1a1510;border:1px solid rgba(201,168,76,.1);padding:1.1rem;text-align:center;}
+.adm-stat-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--gold2);line-height:1;}
+.adm-stat-l{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;}
+
+/* admin form */
+.adm-form-box{background:#1a1510;border:1px solid rgba(201,168,76,.12);padding:1.5rem;margin-bottom:1.5rem;}
+.adm-form-title{font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.2em;color:var(--gold);margin-bottom:1.2rem;}
+.adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.adm-fg{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.7rem;}
+.adm-fg.full{grid-column:1/-1;}
+.adm-label{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.8;}
+.adm-input,.adm-select,.adm-area{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);color:#e8ddd0;padding:.7rem .9rem;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s;width:100%;}
+.adm-input:focus,.adm-select:focus,.adm-area:focus{border-color:var(--gold);}
+.adm-input::placeholder,.adm-area::placeholder{color:var(--muted);}
+.adm-select option{background:#1a1510;}
+.adm-img-prev{width:100%;height:120px;background:rgba(201,168,76,.03);border:1px dashed rgba(201,168,76,.18);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:.4rem;position:relative;}
+.adm-img-prev img{width:100%;height:100%;object-fit:cover;display:none;}
+.adm-img-prev span{font-size:.7rem;color:var(--muted);position:absolute;}
+.adm-btns{display:flex;gap:.7rem;margin-top:1rem;}
+.adm-save-btn{background:var(--gold);color:#0d0a07;border:none;padding:.75rem 1.8rem;font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s;flex:1;}
+.adm-save-btn:hover{background:var(--gold2);}
+.adm-cancel-btn{background:none;border:1px solid rgba(201,168,76,.2);color:var(--muted);padding:.75rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.7rem;cursor:pointer;transition:all .3s;}
+.adm-cancel-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* paintings table */
+.adm-table-wrap{background:#1a1510;border:1px solid rgba(201,168,76,.12);}
+.adm-table-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid rgba(201,168,76,.1);}
+.adm-table{width:100%;border-collapse:collapse;}
+.adm-table th{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);padding:.75rem 1rem;text-align:left;border-bottom:1px solid rgba(201,168,76,.12);background:rgba(201,168,76,.03);}
+.adm-table td{padding:.8rem 1rem;border-bottom:1px solid rgba(201,168,76,.05);font-size:.83rem;color:#e8ddd0;vertical-align:middle;}
+.adm-table tr:hover td{background:rgba(201,168,76,.02);}
+.adm-thumb{width:44px;height:55px;object-fit:cover;display:block;}
+.adm-status{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:.18rem .55rem;}
+.adm-avail{background:rgba(45,106,79,.2);color:#6fcf97;border:1px solid rgba(45,106,79,.35);}
+.adm-sold{background:rgba(139,58,42,.2);color:#e07070;border:1px solid rgba(139,58,42,.35);}
+.adm-new{background:rgba(201,168,76,.12);color:var(--gold2);border:1px solid rgba(201,168,76,.28);}
+.adm-act{background:none;border:1px solid rgba(201,168,76,.15);color:var(--muted);padding:.25rem .6rem;font-size:.62rem;cursor:pointer;transition:all .3s;margin-right:.25rem;}
+.adm-act:hover{border-color:var(--gold);color:var(--gold);}
+.adm-del{border-color:rgba(139,58,42,.25);}.adm-del:hover{border-color:var(--accent);color:var(--accent);}
+
+/* settings */
+.adm-settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.adm-settings-card{background:#1a1510;border:1px solid rgba(201,168,76,.12);padding:1.4rem;}
+.adm-settings-card h4{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;color:var(--gold);margin-bottom:1rem;}
+
+/* login overlay */
+#admLogin{position:absolute;inset:0;background:#0d0a07;z-index:10;display:flex;align-items:center;justify-content:center;}
+.adm-login-box{text-align:center;width:320px;}
+.adm-login-logo{font-family:'Cinzel',serif;font-size:1.5rem;letter-spacing:.35em;color:var(--gold);margin-bottom:.4rem;}
+.adm-login-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:.9rem;margin-bottom:2rem;}
+.adm-login-hint{font-size:.68rem;color:var(--muted);margin-top:1rem;opacity:.6;}
+.adm-pw-err{color:#e07070;font-size:.76rem;margin-top:.5rem;display:none;}
+
+/* secret trigger in footer */
+.adm-trigger{cursor:default;user-select:none;transition:color .3s;}
+.adm-trigger:hover{color:var(--gold);}
+
+</style>
+  <script>
+    (() => {
+      const d=document,s=d.createElement("script");
+      s.type="module";
+      s.src="https://w.behold.so/widget.js";
+      d.head.append(s);
+    })();
+  </script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-title">THE PAINTERS</div>
+  <div class="ld-bar"></div>
+  <p class="ld-sub">Original Handcrafted Artworks</p>
+</div>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOv" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDr">
+  <div class="cart-head">
+    <span class="cart-title">Your Collection</span>
+    <button class="cart-x" onclick="toggleCart()">✕</button>
+  </div>
+  <div id="cartBody"><div class="cart-empty">Your collection is empty.<br>Discover a painting that speaks to you.</div></div>
+  <div id="cartFoot" style="display:none" class="cart-footer">
+    <div class="cart-total"><span class="ct-label">Total</span><span class="ct-price" id="cartTotal">₹0</span></div>
+    <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lb">
+  <div class="lb-bg" onclick="closeLb()"></div>
+  <div class="lb-box">
+    <div class="lb-img"><canvas id="lbC"></canvas>
+      <button class="lb-arr lb-prev" onclick="lbMove(-1)">‹</button>
+      <button class="lb-arr lb-next" onclick="lbMove(1)">›</button>
+    </div>
+    <div class="lb-side">
+      <div>
+        <div class="lb-cat" id="lbCat"></div>
+        <div class="lb-name" id="lbName"></div>
+        <div class="lb-dims" id="lbDims"></div>
+        <div class="lb-price" id="lbPrice"></div>
+      </div>
+      <div>
+        <button class="lb-add" id="lbAdd">Add to Collection</button>
+        <div class="lb-share">
+          <button class="lb-sh" onclick="doShare('wa')">📱 WhatsApp</button>
+          <button class="lb-sh" onclick="doShare('copy')">🔗 Copy</button>
+          <button class="lb-sh" onclick="doShare('ig')">📸 Instagram</button>
+        </div>
+      </div>
+    </div>
+    <button class="lb-close" onclick="closeLb()">✕</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">The Painters</a>
+  <div class="nav-links">
+    <a href="#gallery">Collection</a>
+    <a href="#insta">Gallery</a>
+    <a href="#about">About</a>
+    <a href="#commission">Commission</a>
+    <button class="theme-btn" id="themeBtn">🌙</button>
+    <button class="cart-btn" onclick="toggleCart()">Cart<span class="cart-badge" id="cartBadge"></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb a"></div>
+  <div class="hero-orb b"></div>
+  <div class="hero-orb c"></div>
+  <p class="hero-tag">✦ Original Handcrafted Paintings ✦</p>
+  <h1 class="hero-h1">Where <em>Art</em><br>Finds Its Home</h1>
+  <p class="hero-p">Each canvas tells a story. Each brushstroke, a moment. Original paintings made with love, waiting to transform your space.</p>
+  <div class="hero-btns">
+    <a href="#gallery" class="btn-gold">Explore Collection</a>
+    <a href="#commission" class="btn-ghost">Commission a Piece</a>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div><span class="hero-scroll-text">Scroll</span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee"><div class="marquee-inner" id="mq"></div></div>
+
+<!-- GALLERY -->
+<section class="sec" id="gallery">
+  <div class="gallery-top">
+    <div><p class="sec-label">✦ The Collection</p><h2 class="sec-title">Original <em>Works</em></h2></div>
+    <div class="filters" id="filters">
+      <button class="fbtn on" data-f="all">All Works</button>
+      <button class="fbtn" data-f="abstract">Abstract</button>
+      <button class="fbtn" data-f="landscape">Landscape</button>
+      <button class="fbtn" data-f="portrait">Portrait</button>
+      <button class="fbtn" data-f="floral">Floral</button>
+    </div>
+  </div>
+  <div class="price-row">
+    <label>Max Price</label>
+    <input type="range" id="priceRange" min="10000" max="40000" step="500" value="40000"/>
+    <span id="priceVal">₹40,000</span>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div><div class="stat-n" data-t="247">0</div><div class="stat-l">Paintings Sold</div></div>
+  <div><div class="stat-n" data-t="18">0</div><div class="stat-l">Years Creating</div></div>
+  <div><div class="stat-n" data-t="32">0</div><div class="stat-l">Countries Reached</div></div>
+  <div><div class="stat-n" data-t="100">0</div><div class="stat-l">% Original Works</div></div>
+</div>
+
+<!-- INSTAGRAM -->
+<section class="sec" id="insta">
+  <div style="text-align:center;margin-bottom:2.5rem">
+    <p class="sec-label" style="display:inline-block">✦ Follow the Studio</p>
+    <h2 class="sec-title">On <em>Instagram</em></h2>
+    <p style="color:var(--muted);margin-top:.8rem;font-family:'Cormorant Garamond',serif;font-style:italic">Behind the canvas, process shots, new arrivals — auto-syncs with Instagram.</p>
+  </div>
+
+  <!-- Behold Instagram Widget -->
+  <div style="width:100%">
+    <behold-widget feed-id="X09wvM5jtDwgVL1gD3IF"></behold-widget>
+  </div>
+
+  <div style="text-align:center;margin-top:2rem">
+    <a href="https://instagram.com/the_painters_originals" target="_blank" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.82rem;letter-spacing:.1em;color:var(--muted);text-decoration:none;border:1px solid rgba(201,168,76,.2);padding:.55rem 1.3rem;transition:all .3s" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='rgba(201,168,76,.2)'">📸 @the_painters_originals &nbsp; Follow Us</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec" id="about">
+  <div class="about-inner">
+    <div>
+      <p class="sec-label">✦ The Artist</p>
+      <h2 class="sec-title">Crafted<br>with <em>Soul</em></h2>
+      <p class="about-body">Every painting in this collection is an original — no prints, no reproductions. Each piece begins as a feeling, a memory, or a fleeting moment of beauty that deserves to be preserved forever on canvas.<br><br>Using a blend of acrylic and oil techniques, built up over days or weeks of layering and refining, each work carries its own unique energy.</p>
+      <a href="#commission" class="btn-gold">Commission a Piece</a>
+    </div>
+    <div class="about-vis" id="aboutVis">
+      <img src="https://res.cloudinary.com/drodfg7bs/image/upload/v1780000285/Studio_Serenity_A_Creative_Escape_kitd9b.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;" alt="The Painters Studio"/>
+      <div class="about-quote"><p>"Art is not what you see, but what you make others see."</p><cite>— Edgar Degas</cite></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMISSION -->
+<section class="sec commission-bg" id="commission">
+  <p class="sec-label">✦ Custom Orders</p>
+  <h2 class="sec-title" style="margin-bottom:3rem">Commission a <em>Piece</em></h2>
+  <div class="comm-inner">
+    <div class="comm-form">
+      <div class="f-row">
+        <div class="f-group"><label class="f-label">Your Name</label><input class="f-input" type="text" placeholder="Rahul Sharma"/></div>
+        <div class="f-group"><label class="f-label">Email</label><input class="f-input" type="email" placeholder="rahul@example.com"/></div>
+      </div>
+      <div class="f-row">
+        <div class="f-group"><label class="f-label">Style</label>
+          <select class="f-select f-input"><option>Abstract</option><option>Landscape</option><option>Portrait</option><option>Floral</option><option>Other</option></select>
+        </div>
+        <div class="f-group"><label class="f-label">Budget</label>
+          <select class="f-select f-input"><option>₹10,000 – ₹20,000</option><option>₹20,000 – ₹35,000</option><option>₹35,000+</option></select>
+        </div>
+      </div>
+      <div class="f-group"><label class="f-label">Canvas Size</label>
+        <select class="f-select f-input"><option>Small (12×16 in)</option><option>Medium (20×24 in)</option><option>Large (30×40 in)</option><option>Extra Large (40×60 in)</option></select>
+      </div>
+      <div class="f-group"><label class="f-label">Your Vision</label><textarea class="f-area" placeholder="Tell me about the scene, mood, colors, or subject you have in mind..."></textarea></div>
+      <button class="btn-gold" onclick="toast('Commission request received! Will reply within 24 hrs ✦')">Send Commission Request</button>
+    </div>
+    <div class="comm-steps">
+      <div class="comm-step"><div class="step-n">01</div><div class="step-t"><h4>Consultation Call</h4><p>A personal call to understand your vision before work begins.</p></div></div>
+      <div class="comm-step"><div class="step-n">02</div><div class="step-t"><h4>Progress Updates</h4><p>Photos and videos at each stage — you're part of the journey.</p></div></div>
+      <div class="comm-step"><div class="step-n">03</div><div class="step-t"><h4>Certificate of Authenticity</h4><p>Every commission comes with a signed certificate confirming it's a one-of-a-kind original.</p></div></div>
+      <div class="comm-step"><div class="step-n">04</div><div class="step-t"><h4>Safe Delivery</h4><p>Professionally packaged and insured shipping across India and worldwide.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec">
+  <div style="text-align:center">
+    <p class="sec-label" style="display:inline-block">✦ Collectors Speak</p>
+    <h2 class="sec-title">Words of <em>Praise</em></h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"The painting arrived beautifully packaged and exceeded every expectation. It has transformed our living room — every guest asks about it."</p><div class="test-auth"><div class="test-av">AP</div><div><div class="test-name">Ananya Patel</div><div class="test-loc">Mumbai, India</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"I commissioned a portrait as a gift, and it moved my mother to tears. The attention to emotion and detail is extraordinary. A true heirloom."</p><div class="test-auth"><div class="test-av">RK</div><div><div class="test-name">Rahul Krishnan</div><div class="test-loc">Bangalore, India</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"Purchased the abstract series for my studio. The colors and depth are stunning in person. Three purchases so far, each one better than the last."</p><div class="test-auth"><div class="test-av">SM</div><div><div class="test-name">Sonia Mehra</div><div class="test-loc">Delhi, India</div></div></div></div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <h2>Stay in the Studio</h2>
+  <p>Be the first to know when new works arrive. No spam, only art.</p>
+  <div class="nl-form">
+    <input class="nl-input" type="email" placeholder="your@email.com"/>
+    <button class="nl-btn" onclick="toast('Thank you! You\'re on the list ✦')">Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div><a class="foot-logo" href="#">The Painters</a><p class="foot-tag">Original paintings that carry a story. Every brushstroke made with intention and care.</p></div>
+  <div class="foot-col"><h4>Collection</h4><a href="#">Abstract</a><a href="#">Landscape</a><a href="#">Portrait</a><a href="#">Floral</a><a href="#commission">Commission</a></div>
+  <div class="foot-col"><h4>Info</h4><a href="#">About the Artist</a><a href="#">Shipping Policy</a><a href="#">Authenticity Certificate</a><a href="#">Returns</a></div>
+  <div class="foot-col"><h4>Connect</h4><a href="https://instagram.com">Instagram</a><a href="https://wa.me/918770741614">WhatsApp</a><a href="mailto:art@thepainters.com">Email</a></div>
+</footer>
+<div class="foot-bottom">
+  <p><span class="adm-trigger" onclick="admTrigger()" title="">©</span> 2025 The Painters. All works are original.</p>
+  <p>Made with ♥ — Certified Originals Only</p>
+</div>
+
+<!-- FLOATING WA -->
+<div class="wa">
+  <div class="wa-tip">Chat on WhatsApp</div>
+  <button class="wa-btn" onclick="window.open('https://wa.me/918770741614?text=Hi! I saw your paintings and I\'m interested.','_blank')">💬</button>
+</div>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+const P=[
+  {id:0,name:'Sacred Mandala',cat:'abstract',price:25000,dims:'20×20 in · Hand-painted on Canvas',badge:'New',img:'https://res.cloudinary.com/drodfg7bs/image/upload/v1779999426/download_vvr9ck.jpg',c:['#1a0a2e','#8b0000','#c9a84c','#1a1a4e']},
+  {id:1,name:'Monsoon Reverie',cat:'abstract',price:18500,dims:'24×30 in · Acrylic on Canvas',badge:'New',c:['#1a3a5c','#2e6b9e','#7fb3d3','#c4a35a']},
+  {id:2,name:'Valley at Dusk',cat:'landscape',price:24000,dims:'30×40 in · Oil on Canvas',badge:null,c:['#3d1f0e','#8b4513','#d2691e','#ffd700']},
+  {id:3,name:'Inner Bloom',cat:'floral',price:14000,dims:'20×24 in · Acrylic on Canvas',badge:'Sold',c:['#4a1028','#b5295e','#e8769a','#fce4ec']},
+  {id:4,name:'The Quiet Shore',cat:'landscape',price:32000,dims:'36×48 in · Oil on Canvas',badge:null,c:['#0a2744','#1565c0','#42a5f5','#e3f2fd']},
+  {id:5,name:'Golden Hour',cat:'abstract',price:21000,dims:'24×24 in · Mixed Media',badge:'New',c:['#3e2000','#a05000','#e08020','#ffc040']},
+  {id:6,name:'Portrait No. 7',cat:'portrait',price:28500,dims:'18×24 in · Oil on Canvas',badge:null,c:['#2c1810','#7d4e2c','#c4956a','#f0d5b5']},
+  {id:7,name:'Wildflower Field',cat:'floral',price:16500,dims:'24×36 in · Acrylic on Canvas',badge:null,c:['#1a3d1a','#4a8c4a','#98c774','#e8f5e9']},
+  {id:8,name:'Blue Meditation',cat:'abstract',price:19000,dims:'20×30 in · Acrylic on Canvas',badge:null,c:['#0d0d2b','#1a237e','#3f51b5','#9fa8da']},
+  {id:9,name:'Himalayan Dawn',cat:'landscape',price:38000,dims:'40×50 in · Oil on Canvas',badge:'Featured',c:['#1a0a2e','#7b2d8b','#e040fb','#fff9c4']},
+];
+
+// ── CANVAS PAINT ──────────────────────────────────────
+function paint(canvas,colors,seed){
+  const w=canvas.offsetWidth||canvas.width||300;
+  const h=canvas.offsetHeight||canvas.height||375;
+  canvas.width=w; canvas.height=h;
+  const ctx=canvas.getContext('2d');
+  const g=ctx.createLinearGradient(0,0,w,h);
+  colors.forEach((c,i)=>g.addColorStop(i/(colors.length-1),c));
+  ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+  const r=s=>{s=Math.sin(s*9301+49297)*233280;return s-Math.floor(s);};
+  for(let i=0;i<28;i++){
+    ctx.beginPath();
+    ctx.strokeStyle=colors[Math.floor(r(seed+i)*colors.length)];
+    ctx.lineWidth=r(seed+i+50)*25+4;
+    ctx.globalAlpha=r(seed+i+100)*0.1+0.02;
+    const x=r(seed+i+1)*w, y=r(seed+i+2)*h;
+    ctx.moveTo(x,y);
+    ctx.bezierCurveTo(
+      x+r(seed+i+3)*120-60, y+r(seed+i+4)*90-45,
+      x+r(seed+i+5)*120-60, y+r(seed+i+6)*90-45,
+      x+r(seed+i+7)*140-70, y+r(seed+i+8)*140-70
+    );
+    ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+}
+
+// ── LOADER ────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('done');
+    setTimeout(()=>document.getElementById('loader').remove(),900);
+  },2500);
+  // Paint about canvas
+  setTimeout(()=>{
+    const ac=document.getElementById('aboutC');
+    if(ac) paint(ac,['#1a0a05','#4a1f0a','#8b4513','#c4722a','#e8c07a'],42);
+  },100);
+});
+
+// ── THEME ─────────────────────────────────────────────
+let dark=true;
+document.getElementById('themeBtn').onclick=()=>{
+  dark=!dark;
+  document.body.classList.toggle('light',!dark);
+  document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
+};
+
+// ── MARQUEE ───────────────────────────────────────────
+const words=['Original Works','Handcrafted','Certified Authentic','Worldwide Shipping','Commission Available','Museum Quality'];
+const mq=document.getElementById('mq');
+const full=[...words,...words,...words,...words];
+mq.innerHTML=full.map(w=>`<span class="marquee-item">✦ ${w}</span>`).join('');
+
+// ── STATE ─────────────────────────────────────────────
+let filt='all', maxP=40000, cart=[], wished=new Set(), lbIdx=0, lbList=[];
+
+// ── RENDER GRID ───────────────────────────────────────
+const cardObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show');}),{threshold:0.08});
+
+function renderGrid(){
+  lbList=P.filter(p=>(filt==='all'||p.cat===filt)&&p.price<=maxP);
+  const g=document.getElementById('grid');
+  g.innerHTML=lbList.map((p,i)=>`
+    <div class="card" style="animation-delay:${i*0.07}s">
+      <div class="card-img" id="ci${p.id}">
+        ${p.img ? '<img src="'+p.img+'" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;" alt="'+p.name+'"/>' : ''}
+        <canvas id="pc${p.id}" style="${p.img ? 'display:none' : ''}"></canvas>
+
+        ${p.badge?`<div class="badge">${p.badge}</div>`:''}
+        ${p.badge==='Sold'?'<div class="sold-overlay"><div class="sold-stamp">SOLD</div></div>':''}
+        ${p.badge!=='Sold'?`
+        <div class="card-overlay">
+          <button class="ov-add" onclick="addCart(${p.id})">Add to Collection</button>
+          <div class="ov-row">
+            <button class="ov-btn" onclick="share(${p.id},'wa')">📱 WhatsApp</button>
+            <button class="ov-btn" onclick="share(${p.id},'copy')">🔗 Copy</button>
+            <button class="ov-btn" onclick="openLb(${p.id})">🔍 View</button>
+          </div>
+        </div>`:''}
+      </div>
+      <div class="card-info">
+        <div class="card-cat">${p.cat.charAt(0).toUpperCase()+p.cat.slice(1)}</div>
+        <div class="card-name" onclick="openLb(${p.id})">${p.name}</div>
+        <div class="card-dims">${p.dims}</div>
+        <div class="card-foot">
+          <div class="card-price">${p.badge==='Sold'?'<span style="font-size:1rem;color:var(--muted)">Sold</span>':`₹${p.price.toLocaleString('en-IN')}`}</div>
+          <button class="wish-btn ${wished.has(p.id)?'on':''}" onclick="toggleWish(${p.id},this)">${wished.has(p.id)?'♥':'♡'}</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Paint canvases after DOM ready
+  requestAnimationFrame(()=>{
+    lbList.forEach(p=>{
+      const c=document.getElementById('pc'+p.id);
+      if(c) paint(c,p.c,p.id*31);
+    });
+    document.querySelectorAll('.card').forEach(c=>cardObs.observe(c));
+  });
+}
+
+
+// ── FILTERS ───────────────────────────────────────────
+document.querySelectorAll('.fbtn').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); filt=b.dataset.f; renderGrid();
+  };
+});
+document.getElementById('priceRange').oninput=function(){
+  maxP=+this.value;
+  document.getElementById('priceVal').textContent='₹'+maxP.toLocaleString('en-IN');
+  renderGrid();
+};
+
+// ── LIGHTBOX ──────────────────────────────────────────
+function openLb(id){
+  lbIdx=lbList.findIndex(p=>p.id===id);
+  if(lbIdx<0){lbList=P;lbIdx=P.findIndex(p=>p.id===id);}
+  renderLb();
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow='';
+}
+function lbMove(d){
+  lbIdx=(lbIdx+d+lbList.length)%lbList.length;
+  renderLb();
+}
+function renderLb(){
+  const p=lbList[lbIdx];if(!p)return;
+  document.getElementById('lbCat').textContent=p.cat.charAt(0).toUpperCase()+p.cat.slice(1);
+  document.getElementById('lbName').textContent=p.name;
+  document.getElementById('lbDims').textContent=p.dims;
+  document.getElementById('lbPrice').textContent=p.badge==='Sold'?'Sold':'₹'+p.price.toLocaleString('en-IN');
+  const btn=document.getElementById('lbAdd');
+  if(p.badge==='Sold'){btn.textContent='Sold Out';btn.disabled=true;btn.style.opacity='.5';}
+  else{btn.textContent='Add to Collection';btn.disabled=false;btn.style.opacity='1';btn.onclick=()=>{addCart(p.id);closeLb();};}
+  const c=document.getElementById('lbC');
+  if(p.img){
+    c.style.display='none';
+    let existing=document.getElementById('lbRealImg');
+    if(!existing){existing=document.createElement('img');existing.id='lbRealImg';existing.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;';document.querySelector('.lb-img').appendChild(existing);}
+    existing.src=p.img;existing.style.display='block';
+  } else {
+    const ri=document.getElementById('lbRealImg');if(ri)ri.style.display='none';
+    c.style.display='block';c.width=0;c.height=0;
+    requestAnimationFrame(()=>paint(c,p.c,p.id*31+500));
+  }
+}
+function doShare(type){const p=lbList[lbIdx];if(p)share(p.id,type);}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lb').classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowLeft')lbMove(-1);
+  if(e.key==='ArrowRight')lbMove(1);
+});
+
+// ── SHARE ─────────────────────────────────────────────
+function share(id,type){
+  const p=P.find(x=>x.id===id);if(!p)return;
+  if(type==='wa')window.open(`https://wa.me/?text=Check%20out%20"${encodeURIComponent(p.name)}"%20%E2%82%B9${p.price.toLocaleString('en-IN')}%20-%20The%20Painters`,'_blank');
+  else if(type==='copy'){navigator.clipboard.writeText(`"${p.name}" — ₹${p.price.toLocaleString('en-IN')} — The Painters`);toast('Copied to clipboard ✦');}
+  else toast('Open Instagram and paste the caption ✦');
+}
+
+// ── CART ──────────────────────────────────────────────
+function addCart(id){
+  const p=P.find(x=>x.id===id);
+  if(!p||p.badge==='Sold')return;
+  if(cart.find(x=>x.id===id)){toast('Already in your collection!');return;}
+  cart.push(p);updateCart();toast(`"${p.name}" added ✦`);
+}
+function removeCart(id){cart=cart.filter(x=>x.id!==id);updateCart();}
+function updateCart(){
+  const badge=document.getElementById('cartBadge');
+  badge.textContent=cart.length;
+  badge.style.display=cart.length?'flex':'none';
+  const body=document.getElementById('cartBody');
+  const foot=document.getElementById('cartFoot');
+  if(!cart.length){
+    body.innerHTML='<div class="cart-empty">Your collection is empty.<br>Discover a painting that speaks to you.</div>';
+    foot.style.display='none';return;
+  }
+  body.innerHTML=cart.map(p=>`
+    <div class="cart-item">
+      <div class="ci-thumb"><canvas id="ct${p.id}" width="65" height="82"></canvas></div>
+      <div style="flex:1"><div class="ci-name">${p.name}</div><div class="ci-price">₹${p.price.toLocaleString('en-IN')}</div><div style="font-size:.68rem;color:var(--muted);margin-top:.2rem">${p.dims}</div></div>
+      <button class="ci-rm" onclick="removeCart(${p.id})">✕</button>
+    </div>`).join('');
+  requestAnimationFrame(()=>cart.forEach(p=>{const c=document.getElementById('ct'+p.id);if(c)paint(c,p.c,p.id*31);}));
+  const total=cart.reduce((s,p)=>s+p.price,0);
+  document.getElementById('cartTotal').textContent='₹'+total.toLocaleString('en-IN');
+  foot.style.display='block';
+}
+function toggleCart(){
+  document.getElementById('cartDr').classList.toggle('open');
+  document.getElementById('cartOv').classList.toggle('open');
+}
+
+// ── WISHLIST ──────────────────────────────────────────
+function toggleWish(id,btn){
+  if(wished.has(id)){wished.delete(id);btn.textContent='♡';btn.classList.remove('on');}
+  else{wished.add(id);btn.textContent='♥';btn.classList.add('on');toast('Added to wishlist ♥');}
+}
+
+// ── TOAST ─────────────────────────────────────────────
+let toastT;
+function toast(msg){
+  const el=document.getElementById('toastEl');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ── STATS COUNTER ─────────────────────────────────────
+const sObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(!e.isIntersecting)return;
+    document.querySelectorAll('[data-t]').forEach(el=>{
+      let t0=0;const target=+el.dataset.t,isP=target===100;
+      const step=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/2000,1);
+        el.textContent=Math.floor(p*target)+(isP?'%':'+');if(p<1)requestAnimationFrame(step);};
+      requestAnimationFrame(step);
+    });
+    sObs.disconnect();
+  });
+},{threshold:.5});
+const statsEl=document.querySelector('.stats');
+if(statsEl)sObs.observe(statsEl);
+
+// ── INSTAGRAM ── Behold widget handles this now
+
+// ── INIT ──────────────────────────────────────────────
+renderGrid();
+
+// ── ADMIN PANEL ──────────────────────────────────────
+let admPaintings=[], admSettings={wa:'',email:'',ig:'',name:'',bio:''}, admPw='painters123', admLoggedIn=false;
+let admEditId=null, admTriggerCount=0, admTriggerTimer=null;
+
+// Load data from storage
+(async()=>{
+  try{
+    const sp=await window.storage.get('tp-paintings');
+    if(sp)admPaintings=JSON.parse(sp.value);
+    const ss=await window.storage.get('tp-settings');
+    if(ss)admSettings={...admSettings,...JSON.parse(ss.value)};
+    const spw=await window.storage.get('tp-pw');
+    if(spw)admPw=JSON.parse(spw.value);
+    admLoadSettingsForm();
+    // Also reload gallery with saved paintings
+    if(admPaintings.length) mergeAdminPaintings();
+  }catch(e){}
+})();
+
+function mergeAdminPaintings(){
+  // Add admin paintings to gallery P array (avoid duplicates)
+  admPaintings.forEach(ap=>{
+    if(!P.find(p=>p.id===ap.id)){
+      P.unshift({
+        id:ap.id,name:ap.name,cat:ap.cat,price:ap.price,
+        dims:(ap.size||'')+(ap.medium?' · '+ap.medium:''),
+        badge:ap.status||null,
+        img:ap.img||null,
+        c:catColors(ap.cat)
+      });
+    }
+  });
+  renderGrid();
+}
+
+function catColors(cat){
+  return {abstract:['#1a237e','#3f51b5','#9fa8da','#e8eaf6'],landscape:['#1b5e20','#2e7d32','#66bb6a','#e8f5e9'],portrait:['#3e2723','#5d4037','#a1887f','#efebe9'],floral:['#880e4f','#ad1457','#f06292','#fce4ec']}[cat]||['#37474f','#546e7a','#90a4ae','#eceff1'];
+}
+
+// Secret trigger: click © in footer 5 times fast
+function admTrigger(){
+  admTriggerCount++;
+  clearTimeout(admTriggerTimer);
+  admTriggerTimer=setTimeout(()=>admTriggerCount=0,2000);
+  if(admTriggerCount>=5){
+    admTriggerCount=0;
+    openAdmin();
+  }
+}
+
+function openAdmin(){
+  document.getElementById('adminPanel').classList.add('open');
+  document.body.style.overflow='hidden';
+  if(!admLoggedIn) document.getElementById('admLogin').style.display='flex';
+  else{document.getElementById('admLogin').style.display='none';admRenderDashboard();}
+}
+function closeAdmin(){
+  document.getElementById('adminPanel').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function admDoLogin(){
+  const v=document.getElementById('admPwInput').value;
+  if(v===admPw){
+    admLoggedIn=true;
+    document.getElementById('admLogin').style.display='none';
+    document.getElementById('admPwErr').style.display='none';
+    admRenderDashboard();
+  } else {
+    document.getElementById('admPwErr').style.display='block';
+    document.getElementById('admPwInput').value='';
+  }
+}
+
+function admTab(name,btn){
+  document.querySelectorAll('.adm-panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.adm-tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('adm-'+name).classList.add('on');
+  document.querySelectorAll('.adm-tab').forEach(b=>{if(b.textContent.trim().toLowerCase()===name||b.getAttribute('onclick').includes("'"+name+"'"))b.classList.add('on');});
+  if(name==='dashboard')admRenderDashboard();
+  if(name==='paintings')admRenderTable();
+}
+
+function admRenderDashboard(){
+  const avail=P.filter(p=>p.badge!=='Sold').length;
+  const sold=P.filter(p=>p.badge==='Sold').length;
+  const val=P.filter(p=>p.badge!=='Sold').reduce((s,p)=>s+(+p.price||0),0);
+  document.getElementById('adm-st-total').textContent=P.length;
+  document.getElementById('adm-st-avail').textContent=avail;
+  document.getElementById('adm-st-sold').textContent=sold;
+  document.getElementById('adm-st-val').textContent='₹'+val.toLocaleString('en-IN');
+}
+
+function admQPreview(url){
+  const img=document.getElementById('qa-preview-img');
+  if(url){img.src=url;img.style.display='block';img.onerror=()=>img.style.display='none';}
+  else img.style.display='none';
+}
+
+async function admQuickSave(){
+  const name=document.getElementById('qa-name').value.trim();
+  const price=document.getElementById('qa-price').value;
+  if(!name||!price){toast('"Naam" aur "Price" zaroori hai!');return;}
+  const size=document.getElementById('qa-size').value.trim();
+  const medium=document.getElementById('qa-medium').value.trim();
+  const p={
+    id:Date.now(),name,cat:document.getElementById('qa-cat').value,
+    price:+price,status:document.getElementById('qa-status').value||'',
+    size,medium,img:document.getElementById('qa-img').value.trim(),
+    desc:'',addedOn:new Date().toLocaleDateString('en-IN')
+  };
+  admPaintings.unshift(p);
+  await admSave('tp-paintings',admPaintings);
+  // Also update live gallery
+  P.unshift({id:p.id,name:p.name,cat:p.cat,price:p.price,dims:(size||'')+(medium?' · '+medium:''),badge:p.status||null,img:p.img||null,c:catColors(p.cat)});
+  renderGrid();
+  toast(`"${name}" website pe live ho gaya! ✦`);
+  ['qa-name','qa-price','qa-size','qa-medium','qa-img'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('qa-preview-img').style.display='none';
+  admRenderDashboard();
+}
+
+function admRenderTable(){
+  const tbody=document.getElementById('admTable');
+  if(!P.length){
+    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:3rem;font-style:italic;color:var(--muted)">No paintings added yet.</td></tr>';
+    return;
+  }
+  let html='';
+  P.forEach(function(p){
+    const admP=admPaintings.find(function(x){return x.id===p.id;});
+    const status=p.badge||'';
+    const size=admP?admP.size:(p.dims||'');
+    const medium=admP?admP.medium:'';
+    const addedOn=admP?admP.addedOn:'Default';
+    const imgSrc=p.img||'';
+    const imgHtml=imgSrc
+      ?'<img class="adm-thumb" src="'+imgSrc+'" style="object-fit:cover" alt=""/>'
+      :'<div style="width:44px;height:55px;background:#120f0a;border:1px solid rgba(201,168,76,.1)"></div>';
+    const sClass=status==='Sold'?'adm-sold':(status==='New'||status==='Featured'?'adm-new':'adm-avail');
+    const soldLbl=status==='Sold'?'Mark Available':'Mark Sold';
+    html+='<tr data-id="'+p.id+'" data-status="'+status+'">'
+      +'<td>'+imgHtml+'</td>'
+      +'<td><strong style="color:#f0e8d8">'+p.name+'</strong><br><small style="color:#7a6e60">'+addedOn+'</small></td>'
+      +'<td style="text-transform:capitalize;color:#7a6e60">'+p.cat+'</td>'
+      +'<td style="font-family:Cormorant Garamond,serif;font-size:1.05rem;color:#e8c97a">₹'+p.price.toLocaleString('en-IN')+'</td>'
+      +'<td style="color:#7a6e60;font-size:.78rem">'+size+(medium?'<br>'+medium:'')+'</td>'
+      +'<td><span class="adm-status '+sClass+'">'+(status||'Available')+'</span></td>'
+      +'<td>'
+        +'<button class="adm-act adm-toggle-btn">'+soldLbl+'</button> '
+        +'<button class="adm-act adm-del adm-delete-btn">&#128465; Delete</button>'
+      +'</td>'
+      +'</tr>';
+  });
+  tbody.innerHTML=html;
+  // Attach events via JS (no inline onclick = no quote issues)
+  tbody.querySelectorAll('.adm-toggle-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      const row=btn.closest('tr');
+      admToggleSoldAll(Number(row.dataset.id), row.dataset.status);
+    });
+  });
+  tbody.querySelectorAll('.adm-delete-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      const row=btn.closest('tr');
+      admDeleteAll(Number(row.dataset.id));
+    });
+  });
+}
+async function admToggleSoldAll(id, currentStatus){
+  // Update in P array
+  const lp=P.find(x=>x.id===id);
+  if(lp){lp.badge=currentStatus==='Sold'?null:'Sold';}
+  // Update in admPaintings if exists
+  const ap=admPaintings.find(x=>x.id===id);
+  if(ap){ap.status=currentStatus==='Sold'?'':'Sold';}
+  await admSave('tp-paintings',admPaintings);
+  admRenderTable();admRenderDashboard();renderGrid();
+  const name=lp?lp.name:'Painting';
+  toast('"'+name+'" '+(currentStatus==='Sold'?'Available ho gaya':'Sold mark ho gaya')+' ✦');
+}
+
+async function admDeleteAll(id){
+  const lp=P.find(x=>x.id===id);
+  if(!confirm('"'+(lp?.name||'Painting')+'" delete Are you sure you want to ho?'))return;
+  // Remove from P (live gallery)
+  const idx=P.findIndex(x=>x.id===id);
+  if(idx>=0)P.splice(idx,1);
+  // Remove from admPaintings too if exists
+  admPaintings=admPaintings.filter(x=>x.id!==id);
+  await admSave('tp-paintings',admPaintings);
+  renderGrid();admRenderTable();admRenderDashboard();
+  toast('"'+(lp?.name||'Painting')+'" delete ho gayi ✦');
+}
+
+function admLoadSettingsForm(){
+  document.getElementById('as-wa').value=admSettings.wa||'';
+  document.getElementById('as-email').value=admSettings.email||'';
+  document.getElementById('as-ig').value=admSettings.ig||'';
+  document.getElementById('as-name').value=admSettings.name||'';
+  document.getElementById('as-bio').value=admSettings.bio||'';
+}
+async function admSaveSettings(){
+  admSettings={...admSettings,
+    wa:document.getElementById('as-wa').value,
+    email:document.getElementById('as-email').value,
+    ig:document.getElementById('as-ig').value,
+    name:document.getElementById('as-name').value,
+    bio:document.getElementById('as-bio').value
+  };
+  await admSave('tp-settings',admSettings);
+  toast('Settings save ho gayi ✦');
+}
+async function admChangePw(){
+  const old=document.getElementById('as-old').value;
+  const nw=document.getElementById('as-new').value;
+  const cf=document.getElementById('as-conf').value;
+  if(old!==admPw){toast('Current password is incorrect!');return;}
+  if(nw.length<6){toast('Password must be at least 6 characters!');return;}
+  if(nw!==cf){toast('Passwords do not match!');return;}
+  admPw=nw;await admSave('tp-pw',JSON.stringify(admPw));
+  ['as-old','as-new','as-conf'].forEach(id=>document.getElementById(id).value='');
+  toast('Password change ho gaya ✦');
+}
+function admExport(){
+  const blob=new Blob([JSON.stringify({paintings:admPaintings,settings:admSettings},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='the-painters-backup.json';a.click();
+  toast('Backup download ho raha hai ✦');
+}
+async function admImport(input){
+  const file=input.files[0];if(!file)return;
+  try{
+    const data=JSON.parse(await file.text());
+    if(data.paintings){admPaintings=data.paintings;await admSave('tp-paintings',admPaintings);mergeAdminPaintings();}
+    if(data.settings){admSettings={...admSettings,...data.settings};await admSave('tp-settings',admSettings);admLoadSettingsForm();}
+    admRenderDashboard();admRenderTable();toast('Data import ho gaya ✦');
+  }catch(e){toast('Invalid file! Please upload a valid JSON backup.');}
+}
+
+async function admSave(key,val){
+  try{await window.storage.set(key,JSON.stringify(val));}catch(e){}
+}
+
+
+// ── RAZORPAY CHECKOUT ─────────────────────────────────
+const RZP_KEY = 'rzp_live_SuvTj00HfUK9Vr';
+let selectedPayment = 'upi';
+
+function openCheckout(){
+  if(!cart.length){toast('Your cart is empty!');return;}
+  document.getElementById('checkoutModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  renderCheckoutSummary();
+}
+function closeCheckout(){
+  document.getElementById('checkoutModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderCheckoutSummary(){
+  const items = document.getElementById('cmItems');
+  items.innerHTML = cart.map(p=>
+    '<div class="cm-item">'
+    +'<span class="cm-item-name">'+p.name+'</span>'
+    +'<span class="cm-item-price">₹'+p.price.toLocaleString('en-IN')+'</span>'
+    +'</div>'
+  ).join('');
+  const total = cart.reduce((s,p)=>s+p.price,0);
+  document.getElementById('cmTotal').textContent = '₹'+total.toLocaleString('en-IN');
+}
+
+function selectPayment(type, el){
+  selectedPayment = type;
+  document.querySelectorAll('.cm-pay-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  const codNote = document.getElementById('codNote');
+  const payBtn = document.getElementById('cmPayBtn');
+  if(type==='cod'){
+    codNote.style.display='block';
+    payBtn.textContent='Place COD Order →';
+  } else {
+    codNote.style.display='none';
+    payBtn.textContent='Pay Now →';
+  }
+}
+
+// ── VALIDATION ────────────────────────────────────────
+function validateForm(){
+  const name  = document.getElementById('cm-name').value.trim();
+  const phone = document.getElementById('cm-phone').value.trim();
+  const email = document.getElementById('cm-email').value.trim();
+  const addr  = document.getElementById('cm-addr').value.trim();
+  const errors = [];
+
+  // Name
+  if(!name || name.length < 2){
+    errors.push('cm-name','Please enter your full name');
+  }
+
+  // Phone — exactly 10 digits, starts with 6-9
+  if(!/^[6-9][0-9]{9}$/.test(phone)){
+    errors.push('cm-phone','Please enter a valid 10-digit Indian mobile number');
+  }
+
+  // Email
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    errors.push('cm-email','Please enter a valid email address');
+  }
+
+  // Address — must have PIN code (6 digits)
+  if(!addr || addr.length < 10){
+    errors.push('cm-addr','Please enter your complete address with PIN code');
+  } else if(!/[0-9]{6}/.test(addr)){
+    errors.push('cm-addr','Address mein 6-digit PIN code zaroori hai');
+  }
+
+  // Show inline errors
+  ['cm-name','cm-phone','cm-email','cm-addr'].forEach(id=>{
+    const el = document.getElementById(id);
+    const errEl = document.getElementById(id+'-err');
+    if(errEl) errEl.remove();
+    el.style.borderColor = 'rgba(201,168,76,.15)';
+  });
+
+  for(let i=0; i<errors.length; i+=2){
+    const id = errors[i], msg = errors[i+1];
+    const el = document.getElementById(id);
+    if(el){
+      el.style.borderColor = '#e07070';
+      const err = document.createElement('div');
+      err.id = id+'-err';
+      err.style.cssText = 'font-size:.68rem;color:#e07070;margin-top:.25rem;';
+      err.textContent = '⚠️ '+msg;
+      el.parentNode.appendChild(err);
+    }
+  }
+
+  if(errors.length > 0){
+    // Scroll to first error
+    const firstErr = document.getElementById(errors[0]);
+    if(firstErr) firstErr.scrollIntoView({behavior:'smooth', block:'center'});
+    return null;
+  }
+
+  return {name, phone, email, addr};
+}
+
+async function sendCustomerWhatsApp(phone, name, items, total, paymentId, isCOD){
+  try {
+    const res = await fetch('/api/send-whatsapp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, phone, 
+        email: document.getElementById('cm-email').value.trim(),
+        address: document.getElementById('cm-addr').value.trim(),
+        items: items.split(', '),
+        total, paymentId, isCOD
+      })
+    });
+    const data = await res.json();
+    if(data.success){
+      toast('WhatsApp confirmation sent to your number!');
+    } else {
+      console.warn('WhatsApp send failed:', data.error);
+    }
+  } catch(err) {
+    console.warn('Could not send WhatsApp:', err);
+  }
+}
+
+function processPayment(){
+  const data = validateForm();
+  if(!data) return;
+  const {name, phone, email, addr} = data;
+  const total = cart.reduce((s,p)=>s+p.price,0);
+  const itemNames = cart.map(p=>p.name).join(', ');
+
+  if(selectedPayment==='cod'){
+    processCOD(name, phone, email, addr, itemNames, total);
+    return;
+  }
+
+  const options = {
+    key: RZP_KEY,
+    amount: total * 100,
+    currency: 'INR',
+    name: 'The Painters',
+    description: itemNames,
+    image: 'https://res.cloudinary.com/drodfg7bs/image/upload/v1779999426/download_vvr9ck.jpg',
+    prefill:{ name, email, contact: '+91'+phone },
+    notes:{ address: addr, items: itemNames },
+    theme:{ color:'#c9a84c' },
+    method: selectedPayment==='upi'        ? {upi:true,  card:false, netbanking:false, wallet:false}
+          : selectedPayment==='card'       ? {card:true, upi:false,  netbanking:false, wallet:false}
+          : selectedPayment==='netbanking' ? {netbanking:true, upi:false, card:false, wallet:false}
+          : {},
+    handler: function(response){
+      const pid = response.razorpay_payment_id;
+      showOrderSuccess(name, pid, total, itemNames, false);
+      // WhatsApp to customer
+      sendCustomerWhatsApp(phone, name, itemNames, total, pid, false);
+      // WhatsApp to owner
+      const ownerMsg = '🔔 *New Order Received!*%0A%0A👤 '+encodeURIComponent(name)+'%0A📞 '+phone+'%0A📧 '+encodeURIComponent(email)+'%0A🖼 '+encodeURIComponent(itemNames)+'%0A💰 ₹'+total.toLocaleString('en-IN')+'%0A🆔 '+pid+'%0A📍 '+encodeURIComponent(addr);
+      setTimeout(function(){ window.open('https://wa.me/918770741614?text='+ownerMsg,'_blank'); }, 2000);
+    },
+    modal:{ ondismiss: function(){ toast('Payment cancelled'); } }
+  };
+  const rzp = new Razorpay(options);
+  rzp.on('payment.failed', function(resp){ toast('Payment failed: '+resp.error.description); });
+  rzp.open();
+}
+
+function processCOD(name, phone, email, addr, items, total){
+  const orderId = 'COD-'+Date.now();
+  showOrderSuccess(name, orderId, total, items, true);
+  // WhatsApp to customer
+  sendCustomerWhatsApp(phone, name, items, total, orderId, true);
+  // WhatsApp to owner
+  const ownerMsg = '🔔 *New COD Order!*%0A%0A👤 '+encodeURIComponent(name)+'%0A📞 '+phone+'%0A📧 '+encodeURIComponent(email)+'%0A🖼 '+encodeURIComponent(items)+'%0A💰 ₹'+total.toLocaleString('en-IN')+' (COD)%0A📍 '+encodeURIComponent(addr);
+  setTimeout(function(){ window.open('https://wa.me/918770741614?text='+ownerMsg,'_blank'); }, 2000);
+}
+
+function showOrderSuccess(name, paymentId, total, items, isCOD){
+  cart=[];updateCart();
+  const shortId = paymentId.toString().slice(-10).toUpperCase();
+  document.getElementById('cmBody').innerHTML =
+    '<div class="cm-success">'
+    +'<div class="cm-success-icon">🎨</div>'
+    +'<h3>Order Confirmed!</h3>'
+    +'<p>Shukriya <strong style="color:var(--cream)">'+name+'</strong>!<br><br>'
+    +'<em style="color:var(--gold2)">'+items+'</em> ka order successfully place ho gaya.<br><br>'
+    +(isCOD
+      ? '<span style="background:rgba(45,106,79,.2);color:#6fcf97;padding:.3rem .8rem;font-size:.75rem;border:1px solid rgba(45,106,79,.4)">💵 Cash on Delivery</span>'
+      : '<span style="background:rgba(45,106,79,.2);color:#6fcf97;padding:.3rem .8rem;font-size:.75rem;border:1px solid rgba(45,106,79,.4)">✅ Payment Successful</span>'
+    )
+    +'<br><br><span style="font-size:.73rem;color:var(--muted)">Order ID: '+shortId+'</span><br><br>'
+    +'<span style="font-size:.8rem;color:var(--muted)">📱 Aapke WhatsApp pe confirmation message bheja ja raha hai...</span>'
+    +'</p>'
+    +'<button class="cm-pay-now" style="margin-top:1.5rem" onclick="closeCheckout()">Continue Browsing</button>'
+    +'</div>';
+}
+
+</script>
+
+<!-- SECRET ADMIN TRIGGER COUNT -->
+<div id="adminPanel">
+  <!-- Admin Login -->
+  <div id="admLogin">
+    <div class="adm-login-box">
+      <div class="adm-login-logo">The Painters</div>
+      <div class="adm-login-sub">Admin Studio</div>
+      <label class="adm-label" style="display:block;text-align:left;margin-bottom:.5rem">Password</label>
+      <input class="adm-input" type="password" id="admPwInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')admDoLogin()"/>
+      <button class="adm-save-btn" style="margin-top:.8rem;width:100%" onclick="admDoLogin()">Enter Studio</button>
+      <div class="adm-pw-err" id="admPwErr">Incorrect password. Try again.</div>
+      <div class="adm-login-hint">Default: <strong style="color:var(--gold)">painters123</strong></div>
+    </div>
+  </div>
+
+  <!-- Admin Topbar -->
+  <div class="adm-topbar">
+    <div class="adm-logo">The Painters — Admin</div>
+    <div class="adm-tabs">
+      <button class="adm-tab on" onclick="admTab('dashboard',this)">Dashboard</button>
+      <button class="adm-tab" onclick="admTab('paintings',this)">Paintings</button>
+      <button class="adm-tab" onclick="admTab('settings',this)">Settings</button>
+    </div>
+    <button class="adm-close-btn" onclick="closeAdmin()">✕ Close Panel</button>
+  </div>
+
+  <!-- Admin Body -->
+  <div class="adm-body">
+
+    <!-- DASHBOARD TAB -->
+    <div class="adm-panel on" id="adm-dashboard">
+      <div class="adm-stats">
+        <div class="adm-stat"><div class="adm-stat-n" id="adm-st-total">0</div><div class="adm-stat-l">Total Paintings</div></div>
+        <div class="adm-stat"><div class="adm-stat-n" id="adm-st-avail">0</div><div class="adm-stat-l">Available</div></div>
+        <div class="adm-stat"><div class="adm-stat-n" id="adm-st-sold">0</div><div class="adm-stat-l">Sold</div></div>
+        <div class="adm-stat"><div class="adm-stat-n" id="adm-st-val">₹0</div><div class="adm-stat-l">Total Value</div></div>
+      </div>
+      <div class="adm-form-box">
+        <div class="adm-form-title">+ Quick Add Painting</div>
+        <div class="adm-grid">
+          <div class="adm-fg"><label class="adm-label">Painting Name *</label><input class="adm-input" id="qa-name" placeholder="e.g. Monsoon Reverie"/></div>
+          <div class="adm-fg"><label class="adm-label">Category *</label>
+            <select class="adm-select" id="qa-cat"><option value="abstract">Abstract</option><option value="landscape">Landscape</option><option value="portrait">Portrait</option><option value="floral">Floral</option></select>
+          </div>
+          <div class="adm-fg"><label class="adm-label">Price (₹) *</label><input class="adm-input" id="qa-price" type="number" placeholder="18500"/></div>
+          <div class="adm-fg"><label class="adm-label">Status</label>
+            <select class="adm-select" id="qa-status"><option value="">Available</option><option value="New">New</option><option value="Featured">Featured</option></select>
+          </div>
+          <div class="adm-fg"><label class="adm-label">Size</label><input class="adm-input" id="qa-size" placeholder="24×30 in"/></div>
+          <div class="adm-fg"><label class="adm-label">Medium</label><input class="adm-input" id="qa-medium" placeholder="Acrylic on Canvas"/></div>
+        </div>
+        <div class="adm-fg adm-full"><label class="adm-label">Image URL (Google Drive / Cloudinary / any link)</label><input class="adm-input" id="qa-img" placeholder="https://..." oninput="admQPreview(this.value)"/></div>
+        <div class="adm-img-prev" id="qa-preview"><span>Image preview</span><img id="qa-preview-img" alt=""/></div>
+        <div class="adm-btns">
+          <button class="adm-save-btn" onclick="admQuickSave()">Add Painting to Website →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAINTINGS TAB -->
+    <div class="adm-panel" id="adm-paintings">
+      <div class="adm-table-wrap">
+        <div class="adm-table-head">
+          <span style="font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.2em;color:var(--gold)">All Paintings</span>
+          <button class="adm-save-btn" style="flex:none;padding:.5rem 1.2rem" onclick="admTab('dashboard',document.querySelector('.adm-tab'))">+ Add New</button>
+        </div>
+        <table class="adm-table"><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Size / Medium</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="admTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="adm-panel" id="adm-settings">
+      <div class="adm-settings-grid">
+        <div class="adm-settings-card">
+          <h4>Contact Info</h4>
+          <div class="adm-fg"><label class="adm-label">WhatsApp Number</label><input class="adm-input" id="as-wa" placeholder="+91 99999 99999"/></div>
+          <div class="adm-fg"><label class="adm-label">Email</label><input class="adm-input" id="as-email" placeholder="art@thepainters.com"/></div>
+          <div class="adm-fg"><label class="adm-label">Instagram Handle</label><input class="adm-input" id="as-ig" placeholder="@the_painters_originals"/></div>
+          <button class="adm-save-btn" onclick="admSaveSettings()">Save Settings</button>
+        </div>
+        <div class="adm-settings-card">
+          <h4>Artist Bio</h4>
+          <div class="adm-fg"><label class="adm-label">Artist Name</label><input class="adm-input" id="as-name" placeholder="Your Name"/></div>
+          <div class="adm-fg"><label class="adm-label">Bio</label><textarea class="adm-area" id="as-bio" rows="3" placeholder="Short bio..."></textarea></div>
+          <button class="adm-save-btn" onclick="admSaveSettings()">Save Bio</button>
+        </div>
+        <div class="adm-settings-card">
+          <h4>Change Password</h4>
+          <div class="adm-fg"><label class="adm-label">Current Password</label><input class="adm-input" type="password" id="as-old"/></div>
+          <div class="adm-fg"><label class="adm-label">New Password</label><input class="adm-input" type="password" id="as-new"/></div>
+          <div class="adm-fg"><label class="adm-label">Confirm</label><input class="adm-input" type="password" id="as-conf"/></div>
+          <button class="adm-save-btn" onclick="admChangePw()">Update Password</button>
+        </div>
+        <div class="adm-settings-card">
+          <h4>Backup & Restore</h4>
+          <p style="font-size:.8rem;color:var(--muted);line-height:1.7;margin-bottom:1rem">Export all paintings as JSON backup, or restore from a previous backup.</p>
+          <button class="adm-save-btn" onclick="admExport()" style="margin-bottom:.7rem">Download Backup (JSON)</button>
+          <label class="adm-label" style="display:block;margin-bottom:.4rem">Import Backup</label>
+          <input type="file" accept=".json" onchange="admImport(this)" style="font-size:.75rem;color:var(--muted);width:100%"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- CHECKOUT MODAL -->
+<div class="checkout-modal-bg" id="checkoutModal">
+  <div class="checkout-modal">
+    <div class="cm-header">
+      <span class="cm-title">Complete Your Order</span>
+      <button class="cm-close" onclick="closeCheckout()">✕</button>
+    </div>
+    <!-- ORDER FORM -->
+    <div class="cm-body" id="cmBody">
+      <!-- Order Summary -->
+      <div class="cm-order-summary">
+        <div class="cm-summary-title">Order Summary</div>
+        <div id="cmItems"></div>
+        <div class="cm-total-row">
+          <span class="cm-total-label">Total</span>
+          <span class="cm-total-price" id="cmTotal">₹0</span>
+        </div>
+      </div>
+      <div class="cm-divider"></div>
+      <!-- Customer Details -->
+      <div class="cm-form-title">Your Details</div>
+      <div class="cm-row">
+        <div class="cm-fg"><label class="cm-label">Full Name *</label><input class="cm-input" id="cm-name" placeholder="Rahul Sharma"/></div>
+        <div class="cm-fg"><label class="cm-label">Phone *</label><input class="cm-input" id="cm-phone" placeholder="9999999999" maxlength="10"/></div>
+      </div>
+      <div class="cm-fg"><label class="cm-label">Email *</label><input class="cm-input" id="cm-email" placeholder="rahul@example.com" type="email"/></div>
+      <div class="cm-fg"><label class="cm-label">Delivery Address *</label><input class="cm-input" id="cm-addr" placeholder="Flat No, Street, City, State, PIN"/></div>
+      <div class="cm-divider"></div>
+      <!-- Payment Options -->
+      <div class="cm-form-title">Payment Method</div>
+      <div class="cm-payment-opts">
+        <div class="cm-pay-opt selected" onclick="selectPayment('upi',this)">
+          <span class="cm-pay-opt-icon">📱</span>
+          <span class="cm-pay-opt-label">UPI</span>
+        </div>
+        <div class="cm-pay-opt" onclick="selectPayment('card',this)">
+          <span class="cm-pay-opt-icon">💳</span>
+          <span class="cm-pay-opt-label">Card</span>
+        </div>
+        <div class="cm-pay-opt" onclick="selectPayment('netbanking',this)">
+          <span class="cm-pay-opt-icon">🏦</span>
+          <span class="cm-pay-opt-label">Net Banking</span>
+        </div>
+        <div class="cm-pay-opt" onclick="selectPayment('cod',this)">
+          <span class="cm-pay-opt-icon">💵</span>
+          <span class="cm-pay-opt-label">Cash on Delivery</span>
+        </div>
+      </div>
+      <div class="cm-cod-note" id="codNote">
+        COD available for orders under ₹50,000. A ₹200 handling charge will be added. Payment at the time of delivery.
+      </div>
+      <button class="cm-pay-now" id="cmPayBtn" onclick="processPayment()">Pay Now →</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
