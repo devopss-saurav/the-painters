@@ -828,8 +828,8 @@ function renderGrid(){
   const g=document.getElementById('grid');
   g.innerHTML=lbList.map((p,i)=>`
     <div class="card" style="animation-delay:${i*0.07}s">
-      <div class="card-img" id="ci${p.id}">
-        <canvas id="pc${p.id}"></canvas>
+      <div class="card-img" id="ci${p.id}" ${p.img?'style="background-image:url('+p.img+');background-size:cover;background-position:center;"':''}>
+        <canvas id="pc${p.id}" ${p.img?'style="display:none"':''}></canvas>
 
         ${p.badge?`<div class="badge">${p.badge}</div>`:''}
         ${p.badge==='Sold'?'<div class="sold-overlay"><div class="sold-stamp">SOLD</div></div>':''}
@@ -857,22 +857,8 @@ function renderGrid(){
   // Paint canvases after DOM ready
   requestAnimationFrame(()=>{
     lbList.forEach(p=>{
-      const wrap=document.getElementById('ci'+p.id);
       const c=document.getElementById('pc'+p.id);
-      if(p.img && wrap){
-        // Inject real image
-        const existing=wrap.querySelector('img');
-        if(!existing){
-          const img=document.createElement('img');
-          img.src=p.img;
-          img.alt=p.name;
-          img.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;';
-          wrap.insertBefore(img, c);
-        }
-        if(c) c.style.display='none';
-      } else {
-        if(c) paint(c,p.c,p.id*31);
-      }
+      if(!p.img && c) paint(c,p.c,p.id*31);
     });
     document.querySelectorAll('.card').forEach(c=>cardObs.observe(c));
   });
@@ -1262,6 +1248,36 @@ let selectedPayment = 'upi';
 
 function openCheckout(){
   if(!cart.length){toast('Your cart is empty!');return;}
+  // Reset modal to form state every time
+  document.getElementById('cmBody').innerHTML = `
+    <div class="cm-order-summary">
+      <div class="cm-summary-title">Order Summary</div>
+      <div id="cmItems"></div>
+      <div class="cm-total-row">
+        <span class="cm-total-label">Total</span>
+        <span class="cm-total-price" id="cmTotal">₹0</span>
+      </div>
+    </div>
+    <div class="cm-divider"></div>
+    <div class="cm-form-title">Your Details</div>
+    <div class="cm-row">
+      <div class="cm-fg"><label class="cm-label">Full Name *</label><input class="cm-input" id="cm-name" placeholder="Rahul Sharma"/></div>
+      <div class="cm-fg"><label class="cm-label">Phone *</label><input class="cm-input" id="cm-phone" placeholder="9999999999" maxlength="10"/></div>
+    </div>
+    <div class="cm-fg"><label class="cm-label">Email *</label><input class="cm-input" id="cm-email" placeholder="rahul@example.com" type="email"/></div>
+    <div class="cm-fg"><label class="cm-label">Delivery Address *</label><input class="cm-input" id="cm-addr" placeholder="Flat No, Street, City, State, PIN"/></div>
+    <div class="cm-divider"></div>
+    <div class="cm-form-title">Payment Method</div>
+    <div class="cm-payment-opts">
+      <div class="cm-pay-opt selected" onclick="selectPayment('upi',this)"><span class="cm-pay-opt-icon">📱</span><span class="cm-pay-opt-label">UPI</span></div>
+      <div class="cm-pay-opt" onclick="selectPayment('card',this)"><span class="cm-pay-opt-icon">💳</span><span class="cm-pay-opt-label">Card</span></div>
+      <div class="cm-pay-opt" onclick="selectPayment('netbanking',this)"><span class="cm-pay-opt-icon">🏦</span><span class="cm-pay-opt-label">Net Banking</span></div>
+      <div class="cm-pay-opt" onclick="selectPayment('cod',this)"><span class="cm-pay-opt-icon">💵</span><span class="cm-pay-opt-label">Cash on Delivery</span></div>
+    </div>
+    <div class="cm-cod-note" id="codNote">COD available for orders below ₹50,000. A ₹200 handling fee applies.</div>
+    <button class="cm-pay-now" id="cmPayBtn" onclick="processPayment()">Pay Now →</button>
+  `;
+  selectedPayment = 'upi';
   document.getElementById('checkoutModal').classList.add('open');
   document.body.style.overflow='hidden';
   renderCheckoutSummary();
