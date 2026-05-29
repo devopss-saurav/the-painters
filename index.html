@@ -1017,19 +1017,18 @@ renderGrid();
 let admPaintings=[], admSettings={wa:'',email:'',ig:'',name:'',bio:''}, admPw='painters123', admLoggedIn=false;
 let admEditId=null, admTriggerCount=0, admTriggerTimer=null;
 
-// Load data from storage
+// Load data from localStorage
 (async()=>{
   try{
-    const sp=await window.storage.get('tp-paintings');
-    if(sp)admPaintings=JSON.parse(sp.value);
-    const ss=await window.storage.get('tp-settings');
-    if(ss)admSettings={...admSettings,...JSON.parse(ss.value)};
-    const spw=await window.storage.get('tp-pw');
-    if(spw)admPw=JSON.parse(spw.value);
+    const sp=localStorage.getItem('tp-paintings');
+    if(sp)admPaintings=JSON.parse(sp);
+    const ss=localStorage.getItem('tp-settings');
+    if(ss)admSettings={...admSettings,...JSON.parse(ss)};
+    const spw=localStorage.getItem('tp-pw');
+    if(spw)admPw=JSON.parse(spw);
     admLoadSettingsForm();
-    // Also reload gallery with saved paintings
     if(admPaintings.length) mergeAdminPaintings();
-  }catch(e){}
+  }catch(e){console.warn('Storage load error:',e);}
 })();
 
 function mergeAdminPaintings(){
@@ -1253,7 +1252,7 @@ async function admImport(input){
 }
 
 async function admSave(key,val){
-  try{await window.storage.set(key,JSON.stringify(val));}catch(e){}
+  try{localStorage.setItem(key,JSON.stringify(val));}catch(e){console.warn('Save error:',e);}
 }
 
 
