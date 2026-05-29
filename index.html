@@ -1017,19 +1017,18 @@ renderGrid();
 let admPaintings=[], admSettings={wa:'',email:'',ig:'',name:'',bio:''}, admPw='painters123', admLoggedIn=false;
 let admEditId=null, admTriggerCount=0, admTriggerTimer=null;
 
-// Load data from localStorage
-(async()=>{
+// Load data from localStorage (deferred so main gallery loads first)
+setTimeout(function(){
   try{
     const sp=localStorage.getItem('tp-paintings');
-    if(sp)admPaintings=JSON.parse(sp);
+    if(sp) admPaintings=JSON.parse(sp);
     const ss=localStorage.getItem('tp-settings');
-    if(ss)admSettings={...admSettings,...JSON.parse(ss)};
+    if(ss) admSettings={...admSettings,...JSON.parse(ss)};
     const spw=localStorage.getItem('tp-pw');
-    if(spw)admPw=JSON.parse(spw);
-    admLoadSettingsForm();
+    if(spw) admPw=JSON.parse(spw);
     if(admPaintings.length) mergeAdminPaintings();
-  }catch(e){console.warn('Storage load error:',e);}
-})();
+  }catch(e){}
+}, 500);
 
 function mergeAdminPaintings(){
   // Add admin paintings to gallery P array (avoid duplicates)
@@ -1208,11 +1207,12 @@ async function admDeleteAll(id){
 }
 
 function admLoadSettingsForm(){
-  document.getElementById('as-wa').value=admSettings.wa||'';
-  document.getElementById('as-email').value=admSettings.email||'';
-  document.getElementById('as-ig').value=admSettings.ig||'';
-  document.getElementById('as-name').value=admSettings.name||'';
-  document.getElementById('as-bio').value=admSettings.bio||'';
+  const set = (id, val) => { const el=document.getElementById(id); if(el) el.value=val||''; };
+  set('as-wa', admSettings.wa);
+  set('as-email', admSettings.email);
+  set('as-ig', admSettings.ig);
+  set('as-name', admSettings.name);
+  set('as-bio', admSettings.bio);
 }
 async function admSaveSettings(){
   admSettings={...admSettings,
