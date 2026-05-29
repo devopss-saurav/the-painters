@@ -1360,22 +1360,20 @@ function validateForm(){
   return {name, phone, email, addr};
 }
 
-async function sendCustomerWhatsApp(phone, name, items, total, paymentId, isCOD){
+async function sendCustomerWhatsApp(phone, name, items, total, paymentId, isCOD, email, address){
   try {
     const res = await fetch('/api/send-whatsapp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name, phone, 
-        email: document.getElementById('cm-email').value.trim(),
-        address: document.getElementById('cm-addr').value.trim(),
+        name, phone, email, address,
         items: items.split(', '),
         total, paymentId, isCOD
       })
     });
     const data = await res.json();
     if(data.success){
-      toast('WhatsApp confirmation sent to your number!');
+      toast('WhatsApp confirmation sent! ✦');
     } else {
       console.warn('WhatsApp send failed:', data.error);
     }
