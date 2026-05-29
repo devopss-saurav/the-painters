@@ -1115,7 +1115,7 @@ function admQPreview(url){
 async function admQuickSave(){
   const name=document.getElementById('qa-name').value.trim();
   const price=document.getElementById('qa-price').value;
-  if(!name||!price){toast('"Naam" aur "Price" zaroori hai!');return;}
+  if(!name||!price){toast('Name and Price are required!');return;}
   const size=document.getElementById('qa-size').value.trim();
   const medium=document.getElementById('qa-medium').value.trim();
   const p={
@@ -1129,7 +1129,7 @@ async function admQuickSave(){
   // Also update live gallery
   P.unshift({id:p.id,name:p.name,cat:p.cat,price:p.price,dims:(size||'')+(medium?' · '+medium:''),badge:p.status||null,img:p.img||null,c:catColors(p.cat)});
   renderGrid();
-  toast(`"${name}" website pe live ho gaya! ✦`);
+  toast(`"${name}" added to website! ✦`);
   ['qa-name','qa-price','qa-size','qa-medium','qa-img'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('qa-preview-img').style.display='none';
   admRenderDashboard();
@@ -1192,12 +1192,12 @@ async function admToggleSoldAll(id, currentStatus){
   await admSave('tp-paintings',admPaintings);
   admRenderTable();admRenderDashboard();renderGrid();
   const name=lp?lp.name:'Painting';
-  toast('"'+name+'" '+(currentStatus==='Sold'?'Available ho gaya':'Sold mark ho gaya')+' ✦');
+  toast('"'+name+'" '+(currentStatus==='Sold'?'Marked Available':'Marked as Sold')+' ✦');
 }
 
 async function admDeleteAll(id){
   const lp=P.find(x=>x.id===id);
-  if(!confirm('"'+(lp?.name||'Painting')+'" delete Are you sure you want to ho?'))return;
+  if(!confirm('Are you sure you want to delete "'+(lp?.name||'Painting')+'"?'))return;
   // Remove from P (live gallery)
   const idx=P.findIndex(x=>x.id===id);
   if(idx>=0)P.splice(idx,1);
@@ -1205,7 +1205,7 @@ async function admDeleteAll(id){
   admPaintings=admPaintings.filter(x=>x.id!==id);
   await admSave('tp-paintings',admPaintings);
   renderGrid();admRenderTable();admRenderDashboard();
-  toast('"'+(lp?.name||'Painting')+'" delete ho gayi ✦');
+  toast('"'+(lp?.name||'Painting')+'" deleted successfully ✦');
 }
 
 function admLoadSettingsForm(){
@@ -1224,7 +1224,7 @@ async function admSaveSettings(){
     bio:document.getElementById('as-bio').value
   };
   await admSave('tp-settings',admSettings);
-  toast('Settings save ho gayi ✦');
+  toast('Settings saved successfully ✦');
 }
 async function admChangePw(){
   const old=document.getElementById('as-old').value;
@@ -1235,12 +1235,12 @@ async function admChangePw(){
   if(nw!==cf){toast('Passwords do not match!');return;}
   admPw=nw;await admSave('tp-pw',JSON.stringify(admPw));
   ['as-old','as-new','as-conf'].forEach(id=>document.getElementById(id).value='');
-  toast('Password change ho gaya ✦');
+  toast('Password updated successfully ✦');
 }
 function admExport(){
   const blob=new Blob([JSON.stringify({paintings:admPaintings,settings:admSettings},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='the-painters-backup.json';a.click();
-  toast('Backup download ho raha hai ✦');
+  toast('Downloading backup... ✦');
 }
 async function admImport(input){
   const file=input.files[0];if(!file)return;
@@ -1248,7 +1248,7 @@ async function admImport(input){
     const data=JSON.parse(await file.text());
     if(data.paintings){admPaintings=data.paintings;await admSave('tp-paintings',admPaintings);mergeAdminPaintings();}
     if(data.settings){admSettings={...admSettings,...data.settings};await admSave('tp-settings',admSettings);admLoadSettingsForm();}
-    admRenderDashboard();admRenderTable();toast('Data import ho gaya ✦');
+    admRenderDashboard();admRenderTable();toast('Data imported successfully ✦');
   }catch(e){toast('Invalid file! Please upload a valid JSON backup.');}
 }
 
@@ -1326,7 +1326,7 @@ function validateForm(){
   if(!addr || addr.length < 10){
     errors.push('cm-addr','Please enter your complete address with PIN code');
   } else if(!/[0-9]{6}/.test(addr)){
-    errors.push('cm-addr','Address mein 6-digit PIN code zaroori hai');
+    errors.push('cm-addr','Please include a valid 6-digit PIN code in your address');
   }
 
   // Show inline errors
@@ -1416,8 +1416,6 @@ function processPayment(){
       // WhatsApp to customer
       sendCustomerWhatsApp(phone, name, itemNames, total, pid, false);
       // WhatsApp to owner
-      const ownerMsg = '🔔 *New Order Received!*%0A%0A👤 '+encodeURIComponent(name)+'%0A📞 '+phone+'%0A📧 '+encodeURIComponent(email)+'%0A🖼 '+encodeURIComponent(itemNames)+'%0A💰 ₹'+total.toLocaleString('en-IN')+'%0A🆔 '+pid+'%0A📍 '+encodeURIComponent(addr);
-      setTimeout(function(){ window.open('https://wa.me/918770741614?text='+ownerMsg,'_blank'); }, 2000);
     },
     modal:{ ondismiss: function(){ toast('Payment cancelled'); } }
   };
@@ -1432,8 +1430,6 @@ function processCOD(name, phone, email, addr, items, total){
   // WhatsApp to customer
   sendCustomerWhatsApp(phone, name, items, total, orderId, true);
   // WhatsApp to owner
-  const ownerMsg = '🔔 *New COD Order!*%0A%0A👤 '+encodeURIComponent(name)+'%0A📞 '+phone+'%0A📧 '+encodeURIComponent(email)+'%0A🖼 '+encodeURIComponent(items)+'%0A💰 ₹'+total.toLocaleString('en-IN')+' (COD)%0A📍 '+encodeURIComponent(addr);
-  setTimeout(function(){ window.open('https://wa.me/918770741614?text='+ownerMsg,'_blank'); }, 2000);
 }
 
 function showOrderSuccess(name, paymentId, total, items, isCOD){
@@ -1443,14 +1439,14 @@ function showOrderSuccess(name, paymentId, total, items, isCOD){
     '<div class="cm-success">'
     +'<div class="cm-success-icon">🎨</div>'
     +'<h3>Order Confirmed!</h3>'
-    +'<p>Shukriya <strong style="color:var(--cream)">'+name+'</strong>!<br><br>'
-    +'<em style="color:var(--gold2)">'+items+'</em> ka order successfully place ho gaya.<br><br>'
+    +'<p>Thank you <strong style="color:var(--cream)">'+name+'</strong>!<br><br>'
+    +'<em style="color:var(--gold2)">'+items+'</em> has been ordered successfully.<br><br>'
     +(isCOD
       ? '<span style="background:rgba(45,106,79,.2);color:#6fcf97;padding:.3rem .8rem;font-size:.75rem;border:1px solid rgba(45,106,79,.4)">💵 Cash on Delivery</span>'
       : '<span style="background:rgba(45,106,79,.2);color:#6fcf97;padding:.3rem .8rem;font-size:.75rem;border:1px solid rgba(45,106,79,.4)">✅ Payment Successful</span>'
     )
     +'<br><br><span style="font-size:.73rem;color:var(--muted)">Order ID: '+shortId+'</span><br><br>'
-    +'<span style="font-size:.8rem;color:var(--muted)">📱 Aapke WhatsApp pe confirmation message bheja ja raha hai...</span>'
+    +'<span style="font-size:.8rem;color:var(--muted)">📱 A WhatsApp confirmation is being sent to your number...</span>'
     +'</p>'
     +'<button class="cm-pay-now" style="margin-top:1.5rem" onclick="closeCheckout()">Continue Browsing</button>'
     +'</div>';
