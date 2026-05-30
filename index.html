@@ -495,31 +495,94 @@ a[href*="behold.so"]{
 }
 
 
-/* ── ADMIN MOBILE ── */
+/* ── UPLOAD WIDGET ── */
 .adm-upload-wrap{
   border:2px dashed rgba(201,168,76,.3);
   padding:1.5rem;text-align:center;
-  cursor:pointer;transition:border-color .3s;
+  cursor:pointer;transition:all .3s;
   background:rgba(201,168,76,.03);
-  border-radius:2px;
+  border-radius:2px;position:relative;overflow:hidden;
 }
-.adm-upload-wrap:hover,.adm-upload-wrap:active{border-color:var(--gold);}
+.adm-upload-wrap:hover,.adm-upload-wrap:active{border-color:var(--gold);background:rgba(201,168,76,.07);}
+.adm-upload-wrap.uploading{border-color:var(--gold);cursor:not-allowed;animation:uploadPulse 1.5s ease infinite;}
+@keyframes uploadPulse{0%,100%{background:rgba(201,168,76,.05);}50%{background:rgba(201,168,76,.12);}}
+.upload-shimmer{position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(201,168,76,.15) 50%,transparent 100%);transform:translateX(-100%);animation:shimmer 1.5s ease infinite;display:none;}
+.adm-upload-wrap.uploading .upload-shimmer{display:block;}
+@keyframes shimmer{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
+.upload-progress-ring{width:48px;height:48px;margin:0 auto .8rem;position:relative;display:none;}
+.upload-progress-ring.show{display:block;}
+.upload-progress-ring svg{transform:rotate(-90deg);}
+.upload-progress-ring circle{fill:none;stroke:rgba(201,168,76,.2);stroke-width:3;}
+.upload-progress-ring circle.progress{stroke:var(--gold);stroke-dasharray:138;stroke-dashoffset:138;transition:stroke-dashoffset .3s;stroke-linecap:round;}
+
+/* ── ADMIN MOBILE ── */
 @media(max-width:768px){
-  .adm-topbar{padding:.8rem 1rem;flex-wrap:wrap;gap:.5rem;}
-  .adm-tabs{gap:.3rem;flex-wrap:wrap;}
-  .adm-tab{padding:.3rem .6rem;font-size:.6rem;}
-  .adm-body{padding:1rem;}
+  /* Panel full screen */
+  #adminPanel{overflow-y:auto;}
+
+  /* Topbar */
+  .adm-topbar{
+    padding:.7rem 1rem;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.6rem;
+  }
+  .adm-topbar-row{display:flex;align-items:center;justify-content:space-between;width:100%;}
+  .adm-logo{font-size:.9rem;letter-spacing:.15em;}
+  .adm-close-btn{font-size:.7rem;padding:.35rem .8rem;}
+
+  /* Tabs - scrollable row */
+  .adm-tabs{
+    display:flex;gap:.3rem;
+    overflow-x:auto;width:100%;
+    padding-bottom:.2rem;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .adm-tabs::-webkit-scrollbar{display:none;}
+  .adm-tab{
+    padding:.4rem .8rem;font-size:.65rem;
+    white-space:nowrap;flex-shrink:0;
+  }
+
+  /* Body */
+  .adm-body{padding:.8rem;}
+
+  /* Stats - 2 columns */
+  .adm-stats{grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.2rem;}
+  .adm-stat{padding:.7rem .5rem;}
+  .adm-stat-n{font-size:1.6rem;}
+  .adm-stat-l{font-size:.55rem;letter-spacing:.15em;}
+
+  /* Form grid - single column */
   .adm-grid{grid-template-columns:1fr;}
-  .adm-stats{grid-template-columns:1fr 1fr;gap:.6rem;}
-  .adm-stat{padding:.8rem;}
-  .adm-stat-n{font-size:1.5rem;}
+  .adm-form-box{padding:1rem;}
+  .adm-form-title{font-size:.8rem;}
+
+  /* Upload wrap - bigger tap target */
+  .adm-upload-wrap{padding:2rem 1rem;}
+
+  /* Image preview */
+  .adm-img-prev{height:160px;}
+
+  /* Settings */
   .adm-settings-grid{grid-template-columns:1fr;}
-  .adm-table{font-size:.75rem;}
-  .adm-table th,.adm-table td{padding:.5rem .6rem;}
-  .adm-order-row{flex-direction:column;gap:.6rem;}
-  .adm-login-box{width:90%;padding:0 1rem;}
-  .adm-topbar .adm-logo{font-size:.85rem;}
-  .adm-close-btn{font-size:.65rem;padding:.3rem .6rem;}
+  .adm-settings-card{padding:1rem;}
+
+  /* Table - card layout on mobile */
+  .adm-table-wrap{overflow-x:auto;}
+  .adm-table{min-width:600px;}
+  .adm-table th,.adm-table td{padding:.5rem .6rem;font-size:.72rem;}
+
+  /* Orders */
+  .adm-order-row{flex-direction:column;gap:.5rem;padding:.8rem;}
+  .adm-order-status-select,.adm-order-tracking{width:100%;}
+
+  /* Login */
+  #admLogin{padding:1.5rem;}
+  .adm-login-box{width:100%;max-width:340px;padding:0 .5rem;}
+  .adm-login-logo{font-size:1.3rem;letter-spacing:.25em;}
+  .adm-save-btn{font-size:.7rem;padding:.8rem 1rem;}
 }
 
 /* ── ADMIN PANEL ── */
@@ -1141,6 +1204,19 @@ function openAdmin(){
 function closeAdmin(){
   document.getElementById('adminPanel').classList.remove('open');
   document.body.style.overflow='';
+  // Auto-refresh gallery with latest data
+  renderGrid();
+  // Reset upload form
+  const icon=document.getElementById('qaUploadIcon');
+  const text=document.getElementById('qaUploadText');
+  const sub=document.getElementById('qaUploadSub');
+  const prev=document.getElementById('qa-preview-img');
+  if(icon){icon.textContent='📷';icon.style.display='block';}
+  if(text){text.textContent='Tap to select photo';text.style.color='';}
+  if(sub){sub.textContent='From gallery or camera';}
+  if(prev){prev.style.display='none';}
+  const imgInput=document.getElementById('qa-img');
+  if(imgInput) imgInput.value='';
 }
 
 function admDoLogin(){
@@ -1184,23 +1260,37 @@ function admQPreview(url){
 async function admQuickSave(){
   const name=document.getElementById('qa-name').value.trim();
   const price=document.getElementById('qa-price').value;
-  if(!name||!price){toast('Name and Price are required!');return;}
+  const desc=document.getElementById('qa-desc').value.trim();
+  const img=document.getElementById('qa-img').value.trim();
+  if(!name){toast('Please enter painting name!');document.getElementById('qa-name').focus();return;}
+  if(!price){toast('Please enter price!');document.getElementById('qa-price').focus();return;}
+  if(!desc){toast('Description is required!');document.getElementById('qa-desc').focus();return;}
+  if(!img){toast('Please upload a photo first!');document.getElementById('qaUploadWrap').style.borderColor='#e07070';setTimeout(()=>document.getElementById('qaUploadWrap').style.borderColor='',2000);return;}
   const size=document.getElementById('qa-size').value.trim();
   const medium=document.getElementById('qa-medium').value.trim();
   const p={
     id:Date.now(),name,cat:document.getElementById('qa-cat').value,
     price:+price,status:document.getElementById('qa-status').value||'',
-    size,medium,img:document.getElementById('qa-img').value.trim(),
-    desc:'',addedOn:new Date().toLocaleDateString('en-IN')
+    size,medium,img,
+    desc,addedOn:new Date().toLocaleDateString('en-IN')
   };
   admPaintings.unshift(p);
   await admSave('tp-paintings',admPaintings);
   // Also update live gallery
   P.unshift({id:p.id,name:p.name,cat:p.cat,price:p.price,dims:(size||'')+(medium?' · '+medium:''),badge:p.status||null,img:p.img||null,c:catColors(p.cat)});
   renderGrid();
-  toast(`"${name}" added to website! ✦`);
-  ['qa-name','qa-price','qa-size','qa-medium','qa-img'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('qa-preview-img').style.display='none';
+  toast(`"${name}" added! Close studio to see it live ✦`);
+  // Reset form
+  ['qa-name','qa-price','qa-size','qa-medium','qa-img','qa-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const prev=document.getElementById('qa-preview-img');
+  if(prev)prev.style.display='none';
+  const icon=document.getElementById('qaUploadIcon');
+  const utext=document.getElementById('qaUploadText');
+  const usub=document.getElementById('qaUploadSub');
+  if(icon){icon.textContent='📷';}
+  if(utext){utext.textContent='Tap to select photo';utext.style.color='';}
+  if(usub){usub.textContent='From gallery or camera';}
+  document.getElementById('qa-status').value='';
   admRenderDashboard();
 }
 
@@ -1701,37 +1791,55 @@ async function handlePhotoUpload(input){
   const file = input.files[0];
   if(!file) return;
 
-  // Show preview immediately
+  const wrap = document.getElementById('qaUploadWrap');
+  const icon = document.getElementById('qaUploadIcon');
+  const text = document.getElementById('qaUploadText');
+  const sub  = document.getElementById('qaUploadSub');
+  const ring = document.getElementById('qaProgressRing');
+  const circle = document.getElementById('qaProgressCircle');
+  const preview = document.getElementById('qa-preview-img');
+
+  // Instant local preview
   const reader = new FileReader();
-  reader.onload = e => {
-    const img = document.getElementById('qa-preview-img');
-    img.src = e.target.result;
-    img.style.display = 'block';
-  };
+  reader.onload = e => { preview.src = e.target.result; preview.style.display='block'; };
   reader.readAsDataURL(file);
 
-  // Show progress
-  const progress = document.getElementById('qaUploadProgress');
-  const bar = document.getElementById('qaProgressBar');
-  const text = document.getElementById('qaProgressText');
-  progress.style.display = 'block';
-  bar.style.width = '0%';
-  text.textContent = 'Uploading to cloud...';
+  // Start upload animation
+  wrap.classList.add('uploading');
+  icon.style.display = 'none';
+  ring.classList.add('show');
+  text.textContent = 'Uploading...';
+  sub.textContent = '0%';
+  const circumference = 2 * Math.PI * 22; // ~138
 
   try {
     const url = await uploadToCloudinary(file, (pct) => {
-      bar.style.width = pct + '%';
-      text.textContent = 'Uploading... ' + pct + '%';
+      const offset = circumference - (pct/100)*circumference;
+      circle.style.strokeDashoffset = offset;
+      sub.textContent = pct + '%';
+      text.textContent = pct < 50 ? 'Uploading...' : pct < 90 ? 'Almost there...' : 'Finishing up...';
     });
+
+    // Success state
+    circle.style.strokeDashoffset = 0;
+    ring.classList.remove('show');
+    icon.style.display = 'block';
+    icon.textContent = '✅';
+    text.textContent = 'Photo ready!';
+    sub.textContent = 'Tap to change';
+    wrap.classList.remove('uploading');
     document.getElementById('qa-img').value = url;
-    bar.style.width = '100%';
-    text.textContent = '✅ Upload complete!';
-    toast('Photo uploaded! ✦');
-    setTimeout(() => progress.style.display = 'none', 2000);
+    toast('Photo uploaded successfully! ✦');
+
   } catch(err) {
-    text.textContent = '❌ Upload failed. Try URL instead.';
+    wrap.classList.remove('uploading');
+    ring.classList.remove('show');
+    icon.style.display = 'block';
+    icon.textContent = '❌';
+    text.style.color = '#e07070';
+    text.textContent = 'Upload failed';
+    sub.textContent = 'Create "painters_unsigned" preset in Cloudinary';
     console.error('Upload error:', err);
-    toast('Upload failed — please create unsigned preset in Cloudinary');
   }
 }
 
@@ -1754,14 +1862,16 @@ async function handlePhotoUpload(input){
 
   <!-- Admin Topbar -->
   <div class="adm-topbar">
-    <div class="adm-logo">The Painters — Admin</div>
+    <div class="adm-topbar-row">
+      <div class="adm-logo">The Painters — Admin</div>
+      <button class="adm-close-btn" onclick="closeAdmin()">✕ Close</button>
+    </div>
     <div class="adm-tabs">
       <button class="adm-tab on" onclick="admTab('dashboard',this)">Dashboard</button>
       <button class="adm-tab" onclick="admTab('paintings',this)">Paintings</button>
       <button class="adm-tab" onclick="admTab('orders',this)">Orders</button>
       <button class="adm-tab" onclick="admTab('settings',this)">Settings</button>
     </div>
-    <button class="adm-close-btn" onclick="closeAdmin()">✕ Close Panel</button>
   </div>
 
   <!-- Admin Body -->
@@ -1788,15 +1898,23 @@ async function handlePhotoUpload(input){
           </div>
           <div class="adm-fg"><label class="adm-label">Size</label><input class="adm-input" id="qa-size" placeholder="24×30 in"/></div>
           <div class="adm-fg"><label class="adm-label">Medium</label><input class="adm-input" id="qa-medium" placeholder="Acrylic on Canvas"/></div>
+          <div class="adm-fg" style="grid-column:1/-1"><label class="adm-label">Description * (required)</label><textarea class="adm-input" id="qa-desc" rows="2" placeholder="Describe this painting — technique, inspiration, mood..." style="resize:vertical"></textarea></div>
         </div>
         <div class="adm-fg adm-full">
           <label class="adm-label">Painting Photo</label>
           <div class="adm-upload-wrap" id="qaUploadWrap" onclick="document.getElementById('qaFileInput').click()">
+            <div class="upload-shimmer"></div>
             <input type="file" id="qaFileInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)"/>
             <div id="qaUploadInner">
-              <div style="font-size:2rem;margin-bottom:.5rem">📷</div>
-              <div style="font-size:.8rem;color:var(--gold)">Tap to select photo</div>
-              <div style="font-size:.7rem;color:var(--muted);margin-top:.3rem">From gallery or camera</div>
+              <div class="upload-progress-ring" id="qaProgressRing">
+                <svg width="48" height="48" viewBox="0 0 48 48">
+                  <circle cx="24" cy="24" r="22"/>
+                  <circle class="progress" id="qaProgressCircle" cx="24" cy="24" r="22"/>
+                </svg>
+              </div>
+              <div id="qaUploadIcon" style="font-size:2rem;margin-bottom:.5rem">📷</div>
+              <div id="qaUploadText" style="font-size:.8rem;color:var(--gold)">Tap to select photo</div>
+              <div id="qaUploadSub" style="font-size:.7rem;color:var(--muted);margin-top:.3rem">From gallery or camera</div>
             </div>
           </div>
           <input class="adm-input" id="qa-img" placeholder="Or paste image URL..." oninput="admQPreview(this.value)" style="margin-top:.5rem"/>
