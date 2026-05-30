@@ -911,6 +911,65 @@ const P=[
   {id:0,name:'Sacred Mandala',cat:'abstract',price:25000,dims:'20×20 in · Hand-painted on Canvas',badge:'New',img:'https://res.cloudinary.com/drodfg7bs/image/upload/v1779999426/download_vvr9ck.jpg',c:['#1a0a2e','#8b0000','#c9a84c','#1a1a4e']},
 ];
 
+// ── SUPABASE ──────────────────────────────────────────
+const SB_URL = 'https://jaoozzyiuzkuihysemwo.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imphb296enlpdXprdWloeXNlbXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTk2NzQsImV4cCI6MjA5NTczNTY3NH0.j7apla5zfSe3Fi6rjn2eb2lSjBWTCgS9ErVUDfjF4UE';
+
+async function sbFetch(path, method='GET', body=null){
+  const opts = {
+    method,
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer '+SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method==='POST' ? 'return=representation' : ''
+    }
+  };
+  if(body) opts.body = JSON.stringify(body);
+  const res = await fetch(SB_URL+'/rest/v1/'+path, opts);
+  if(!res.ok){
+    const err = await res.text();
+    throw new Error(err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : [];
+}
+
+// Load paintings from Supabase on startup
+async function loadPaintingsFromDB(){
+  try{
+    const rows = await sbFetch('paintings?select=*&order=created_at.desc');
+    rows.forEach(row => {
+      if(!P.find(p=>p.id===row.id)){
+        P.push({
+          id: row.id,
+          name: row.name,
+          cat: row.cat,
+          price: row.price,
+          dims: (row.size||'')+(row.medium?' · '+row.medium:''),
+          badge: row.badge||null,
+          img: row.img||null,
+          desc: row.description||'',
+          c: row.colors ? JSON.parse(row.colors) : catColors(row.cat)
+        });
+      }
+    });
+    renderGrid();
+  }catch(e){ console.warn('Could not load paintings:', e); }
+}
+
+// Load settings from Supabase
+async function loadSettingsFromDB(){
+  try{
+    const rows = await sbFetch('settings?select=*');
+    rows.forEach(row => {
+      if(row.key === 'contact'){
+        try{ admSettings = {...admSettings, ...JSON.parse(row.value)}; }catch(e){}
+      }
+    });
+  }catch(e){ console.warn('Settings load error:', e); }
+}
+
 // ── CANVAS PAINT ──────────────────────────────────────
 function paint(canvas,colors,seed){
   const w=canvas.offsetWidth||canvas.width||300;
@@ -1145,24 +1204,17 @@ if(statsEl)sObs.observe(statsEl);
 // ── INSTAGRAM ── Behold widget handles this now
 
 // ── INIT ──────────────────────────────────────────────
-renderGrid();
+renderGrid(); // Show Sacred Mandala immediately
+loadPaintingsFromDB(); // Then load from Supabase
 
 // ── ADMIN PANEL ──────────────────────────────────────
 let admPaintings=[], admSettings={wa:'',email:'',ig:'',name:'',bio:''}, admPw='painters123', admLoggedIn=false;
 let admEditId=null, admTriggerCount=0, admTriggerTimer=null;
 
-// Load data from localStorage (deferred so main gallery loads first)
-setTimeout(function(){
-  try{
-    const sp=localStorage.getItem('tp-paintings');
-    if(sp) admPaintings=JSON.parse(sp);
-    const ss=localStorage.getItem('tp-settings');
-    if(ss) admSettings={...admSettings,...JSON.parse(ss)};
-    const spw=localStorage.getItem('tp-pw');
-    if(spw) admPw=JSON.parse(spw);
-    if(admPaintings.length) mergeAdminPaintings();
-  }catch(e){}
-}, 500);
+// Load admin password from localStorage only (device specific is fine for password)
+try{ const spw=localStorage.getItem('tp-pw'); if(spw) admPw=JSON.parse(spw); }catch(e){}
+// Settings loaded from Supabase when admin opens
+loadSettingsFromDB();
 
 function mergeAdminPaintings(){
   // Add admin paintings to gallery P array (avoid duplicates)
@@ -1326,9 +1378,24 @@ async function admQuickSave(){
     size,medium,img,
     desc,addedOn:new Date().toLocaleDateString('en-IN')
   };
-  admPaintings.unshift(p);
-  await admSave('tp-paintings',admPaintings);
-  // Also update live gallery
+  // Save to Supabase
+  try{
+    const saved = await sbFetch('paintings', 'POST', {
+      id: p.id,
+      name: p.name,
+      cat: p.cat,
+      price: p.price,
+      size: p.size,
+      medium: p.medium,
+      img: p.img,
+      description: p.desc,
+      badge: p.status||null,
+      colors: JSON.stringify(catColors(p.cat)),
+      added_on: p.addedOn
+    });
+    admPaintings.unshift(p);
+  }catch(e){ console.warn('Supabase save error:', e); admPaintings.unshift(p); }
+  // Update live gallery
   P.unshift({id:p.id,name:p.name,cat:p.cat,price:p.price,dims:(size||'')+(medium?' · '+medium:''),badge:p.status||null,img:p.img||null,c:catColors(p.cat)});
   renderGrid();
   // Show success banner
@@ -1403,27 +1470,28 @@ function admRenderTable(){
   });
 }
 async function admToggleSoldAll(id, currentStatus){
-  // Update in P array
+  const newBadge = currentStatus==='Sold' ? null : 'Sold';
+  // Update Supabase
+  try{ await sbFetch('paintings?id=eq.'+id, 'PATCH', {badge: newBadge}); }catch(e){ console.warn('Toggle error:', e); }
+  // Update local
   const lp=P.find(x=>x.id===id);
-  if(lp){lp.badge=currentStatus==='Sold'?null:'Sold';}
-  // Update in admPaintings if exists
+  if(lp) lp.badge=newBadge;
   const ap=admPaintings.find(x=>x.id===id);
-  if(ap){ap.status=currentStatus==='Sold'?'':'Sold';}
-  await admSave('tp-paintings',admPaintings);
+  if(ap) ap.status=newBadge||'';
   admRenderTable();admRenderDashboard();renderGrid();
   const name=lp?lp.name:'Painting';
-  toast('"'+name+'" '+(currentStatus==='Sold'?'Marked Available':'Marked as Sold')+' ✦');
+  toast('"'+name+'" '+(newBadge==='Sold'?'Marked as Sold':'Marked Available')+' ✦');
 }
 
 async function admDeleteAll(id){
   const lp=P.find(x=>x.id===id);
   if(!confirm('Are you sure you want to delete "'+(lp?.name||'Painting')+'"?'))return;
-  // Remove from P (live gallery)
+  // Delete from Supabase
+  try{ await sbFetch('paintings?id=eq.'+id, 'DELETE'); }catch(e){ console.warn('Delete error:', e); }
+  // Remove from local arrays
   const idx=P.findIndex(x=>x.id===id);
   if(idx>=0)P.splice(idx,1);
-  // Remove from admPaintings too if exists
   admPaintings=admPaintings.filter(x=>x.id!==id);
-  await admSave('tp-paintings',admPaintings);
   renderGrid();admRenderTable();admRenderDashboard();
   toast('"'+(lp?.name||'Painting')+'" deleted successfully ✦');
 }
@@ -1444,8 +1512,12 @@ async function admSaveSettings(){
     name:document.getElementById('as-name').value,
     bio:document.getElementById('as-bio').value
   };
-  await admSave('tp-settings',admSettings);
-  toast('Settings saved successfully ✦');
+  // Save to Supabase
+  try{
+    await sbFetch('settings?key=eq.contact', 'DELETE');
+    await sbFetch('settings', 'POST', {key:'contact', value: JSON.stringify(admSettings)});
+    toast('Settings saved successfully ✦');
+  }catch(e){ toast('Save failed: '+e.message); }
 }
 async function admChangePw(){
   const old=document.getElementById('as-old').value;
@@ -1454,7 +1526,7 @@ async function admChangePw(){
   if(old!==admPw){toast('Current password is incorrect!');return;}
   if(nw.length<6){toast('Password must be at least 6 characters!');return;}
   if(nw!==cf){toast('Passwords do not match!');return;}
-  admPw=nw;await admSave('tp-pw',JSON.stringify(admPw));
+  admPw=nw;try{localStorage.setItem('tp-pw',JSON.stringify(admPw));}catch(e){}
   ['as-old','as-new','as-conf'].forEach(id=>document.getElementById(id).value='');
   toast('Password updated successfully ✦');
 }
@@ -1474,7 +1546,8 @@ async function admImport(input){
 }
 
 async function admSave(key,val){
-  try{localStorage.setItem(key,JSON.stringify(val));}catch(e){console.warn('Save error:',e);}
+  // Only save password to localStorage
+  if(key==='tp-pw') try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}
 }
 
 
@@ -1745,19 +1818,25 @@ function saveOrders(){
 loadOrders();
 
 // Save order when placed
-function saveOrder(name, phone, items, total, paymentId, isCOD, address){
+async function saveOrder(name, phone, items, total, paymentId, isCOD, address){
   const order = {
-    id: paymentId,
-    name, phone, items, total,
-    payment: isCOD ? 'COD' : 'Online',
+    id: String(paymentId),
+    name, phone,
+    email: '',
     address,
+    items: items,
+    total,
+    payment: isCOD ? 'COD' : 'Online',
     status: 'confirmed',
     tracking: '',
-    date: new Date().toLocaleDateString('en-IN'),
-    time: new Date().toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'})
+    order_date: new Date().toLocaleDateString('en-IN')
   };
-  admOrders.unshift(order);
-  saveOrders();
+  // Save to Supabase
+  try{
+    await sbFetch('orders', 'POST', order);
+  }catch(e){ console.warn('Order save error:', e); }
+  // Also local
+  admOrders.unshift({...order, date: order.order_date, items: Array.isArray(items)?items:items.split(', ')});
 }
 
 function trackOrder(){
@@ -1798,9 +1877,13 @@ function trackOrder(){
 }
 
 // Admin orders render
-function admRenderOrders(){
-  loadOrders();
+async function admRenderOrders(){
   const list = document.getElementById('admOrdersList');
+  list.innerHTML='<div style="padding:2rem;text-align:center;color:var(--muted)">Loading orders...</div>';
+  try{
+    const rows = await sbFetch('orders?select=*&order=created_at.desc');
+    admOrders = rows.map(r=>({...r, items: Array.isArray(r.items)?r.items:[r.items], date: r.order_date}));
+  }catch(e){ console.warn('Load orders error:', e); }
   if(!admOrders.length){
     list.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);font-style:italic">No orders yet.</div>';
     return;
@@ -1819,15 +1902,21 @@ function admRenderOrders(){
   ).join('');
 }
 
-function admSaveOrder(id){
+async function admSaveOrder(id){
   const order = admOrders.find(o=>o.id===id);
   if(!order) return;
   const sel = document.querySelector('.adm-order-status-select[data-id="'+id+'"]');
   const inp = document.querySelector('.adm-order-tracking[data-id="'+id+'"]');
   if(sel) order.status = sel.value;
   if(inp) order.tracking = inp.value.trim();
-  saveOrders();
-  toast('Order updated! ✦');
+  // Update Supabase
+  try{
+    await sbFetch('orders?id=eq.'+encodeURIComponent(id), 'PATCH', {
+      status: order.status,
+      tracking: order.tracking
+    });
+    toast('Order updated! ✦');
+  }catch(e){ toast('Update failed: '+e.message); }
 }
 
 // Hook into admTab to render orders
