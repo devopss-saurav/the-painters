@@ -1258,14 +1258,66 @@ function admQPreview(url){
 }
 
 async function admQuickSave(){
+  // Clear previous errors
+  ['qa-name','qa-price','qa-desc'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.style.borderColor='rgba(201,168,76,.15)';el.style.boxShadow='none';}
+  });
+  document.getElementById('qaUploadWrap').style.borderColor='rgba(201,168,76,.3)';
+
   const name=document.getElementById('qa-name').value.trim();
-  const price=document.getElementById('qa-price').value;
+  const price=document.getElementById('qa-price').value.trim();
   const desc=document.getElementById('qa-desc').value.trim();
   const img=document.getElementById('qa-img').value.trim();
-  if(!name){toast('Please enter painting name!');document.getElementById('qa-name').focus();return;}
-  if(!price){toast('Please enter price!');document.getElementById('qa-price').focus();return;}
-  if(!desc){toast('Description is required!');document.getElementById('qa-desc').focus();return;}
-  if(!img){toast('Please upload a photo first!');document.getElementById('qaUploadWrap').style.borderColor='#e07070';setTimeout(()=>document.getElementById('qaUploadWrap').style.borderColor='',2000);return;}
+
+  // Validate all fields
+  let hasError=false;
+  function markError(id, msg){
+    const el=document.getElementById(id);
+    if(el){
+      el.style.borderColor='#e07070';
+      el.style.boxShadow='0 0 0 2px rgba(224,112,112,.15)';
+      // Add error text if not already there
+      const errId=id+'-adm-err';
+      let errEl=document.getElementById(errId);
+      if(!errEl){
+        errEl=document.createElement('div');
+        errEl.id=errId;
+        errEl.style.cssText='font-size:.65rem;color:#e07070;margin-top:.25rem;';
+        el.parentNode.appendChild(errEl);
+      }
+      errEl.textContent='⚠ '+msg;
+    }
+    hasError=true;
+  }
+
+  if(!name) markError('qa-name','Painting name is required');
+  if(!price||isNaN(+price)||+price<=0) markError('qa-price','Enter a valid price');
+  if(!desc) markError('qa-desc','Description is required');
+  if(!img){
+    document.getElementById('qaUploadWrap').style.borderColor='#e07070';
+    const errId='qa-img-err';
+    let errEl=document.getElementById(errId);
+    if(!errEl){
+      errEl=document.createElement('div');
+      errEl.id=errId;
+      errEl.style.cssText='font-size:.65rem;color:#e07070;margin-top:.25rem;';
+      document.getElementById('qaUploadWrap').parentNode.appendChild(errEl);
+    }
+    errEl.textContent='⚠ Please upload a photo first';
+    hasError=true;
+  }
+
+  if(hasError){
+    // Scroll to first error
+    const firstErr=document.querySelector('[style*="border-color: rgb(224, 112, 112)"], [style*="borderColor"]');
+    if(firstErr) firstErr.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  // Clear error messages
+  document.querySelectorAll('[id$="-adm-err"]').forEach(el=>el.remove());
+
   const size=document.getElementById('qa-size').value.trim();
   const medium=document.getElementById('qa-medium').value.trim();
   const p={
@@ -1279,18 +1331,27 @@ async function admQuickSave(){
   // Also update live gallery
   P.unshift({id:p.id,name:p.name,cat:p.cat,price:p.price,dims:(size||'')+(medium?' · '+medium:''),badge:p.status||null,img:p.img||null,c:catColors(p.cat)});
   renderGrid();
-  toast(`"${name}" added! Close studio to see it live ✦`);
+  // Show success banner
+  const banner=document.createElement('div');
+  banner.style.cssText='background:rgba(45,106,79,.25);border:1px solid rgba(45,106,79,.5);color:#6fcf97;padding:1rem 1.2rem;margin-bottom:1rem;display:flex;align-items:center;gap:.8rem;font-size:.85rem;border-radius:2px;animation:fadeUp .4s ease both';
+  banner.innerHTML='<span style="font-size:1.5rem">✅</span><div><strong style="display:block;margin-bottom:.2rem">"'+name+'" added successfully!</strong><span style="font-size:.75rem;opacity:.8">Close the studio to see it live on your website.</span></div>';
+  const formBox=document.querySelector('.adm-form-box');
+  if(formBox) formBox.insertBefore(banner, formBox.firstChild);
+  setTimeout(()=>{ if(banner.parentNode) banner.remove(); }, 5000);
+
   // Reset form
   ['qa-name','qa-price','qa-size','qa-medium','qa-img','qa-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.querySelectorAll('[id$="-adm-err"]').forEach(el=>el.remove());
   const prev=document.getElementById('qa-preview-img');
   if(prev)prev.style.display='none';
   const icon=document.getElementById('qaUploadIcon');
   const utext=document.getElementById('qaUploadText');
   const usub=document.getElementById('qaUploadSub');
-  if(icon){icon.textContent='📷';}
+  if(icon){icon.textContent='📷';icon.style.display='block';}
   if(utext){utext.textContent='Tap to select photo';utext.style.color='';}
   if(usub){usub.textContent='From gallery or camera';}
   document.getElementById('qa-status').value='';
+  document.getElementById('qaUploadWrap').style.borderColor='rgba(201,168,76,.3)';
   admRenderDashboard();
 }
 
@@ -1605,10 +1666,15 @@ function processPayment(){
       sendCustomerWhatsApp(phone, name, itemNames, total, pid, false);
       // WhatsApp to owner
     },
-    modal:{ ondismiss: function(){ toast('Payment cancelled'); } }
+    modal:{ ondismiss: function(){
+      showPaymentError('Payment Cancelled', 'You cancelled the payment. Your cart is safe — try again when ready.');
+    }}
   };
   const rzp = new Razorpay(options);
-  rzp.on('payment.failed', function(resp){ toast('Payment failed: '+resp.error.description); });
+  rzp.on('payment.failed', function(resp){
+    const reason = resp.error.description || resp.error.reason || 'Payment could not be processed.';
+    showPaymentError('Payment Failed', reason);
+  });
   rzp.open();
 }
 
@@ -1618,6 +1684,22 @@ function processCOD(name, phone, email, addr, items, total){
   // WhatsApp to customer
   sendCustomerWhatsApp(phone, name, items, total, orderId, true);
   // WhatsApp to owner
+}
+
+function showPaymentError(title, message){
+  document.getElementById('checkoutModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  // Keep form intact — just show error banner at top
+  const existing = document.getElementById('payErrorBanner');
+  if(existing) existing.remove();
+  const banner = document.createElement('div');
+  banner.id = 'payErrorBanner';
+  banner.style.cssText = 'background:rgba(139,58,42,.2);border:1px solid rgba(139,58,42,.5);color:#e07070;padding:.9rem 1.2rem;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;font-size:.82rem;';
+  banner.innerHTML = '<span style="font-size:1.3rem">⚠️</span><div><strong style="display:block;margin-bottom:.2rem">'+title+'</strong>'+message+'</div>';
+  const cmBody = document.getElementById('cmBody');
+  if(cmBody) cmBody.insertBefore(banner, cmBody.firstChild);
+  // Auto remove after 6 seconds
+  setTimeout(()=>{ if(banner.parentNode) banner.remove(); }, 6000);
 }
 
 function showOrderSuccess(name, paymentId, total, items, isCOD, phone, email, address){
@@ -1778,9 +1860,13 @@ async function uploadToCloudinary(file, onProgress){
     };
 
     xhr.onload = () => {
-      const data = JSON.parse(xhr.responseText);
-      if(data.secure_url) resolve(data.secure_url);
-      else reject(new Error(data.error?.message || 'Upload failed'));
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if(data.secure_url) resolve(data.secure_url);
+        else reject(new Error(data.error?.message || 'Upload failed — check Cloudinary preset'));
+      } catch(e) {
+        reject(new Error('Invalid response from Cloudinary'));
+      }
     };
     xhr.onerror = () => reject(new Error('Network error'));
     xhr.send(formData);
@@ -1837,9 +1923,21 @@ async function handlePhotoUpload(input){
     icon.style.display = 'block';
     icon.textContent = '❌';
     text.style.color = '#e07070';
-    text.textContent = 'Upload failed';
-    sub.textContent = 'Create "painters_unsigned" preset in Cloudinary';
+    text.textContent = 'Upload failed!';
+    const errMsg = err.message || '';
+    if(errMsg.includes('preset') || errMsg.includes('upload_preset') || errMsg.includes('Invalid')){
+      sub.textContent = 'Go to Cloudinary → Settings → Upload Presets → Add "painters_unsigned" (Unsigned)';
+    } else {
+      sub.textContent = errMsg || 'Check internet and try again';
+    }
     console.error('Upload error:', err);
+    // Reset after 5 sec so user can try again
+    setTimeout(()=>{
+      icon.textContent='📷'; icon.style.display='block';
+      text.textContent='Tap to select photo'; text.style.color='';
+      sub.textContent='From gallery or camera';
+      wrap.classList.remove('uploading');
+    }, 5000);
   }
 }
 
@@ -1902,9 +2000,9 @@ async function handlePhotoUpload(input){
         </div>
         <div class="adm-fg adm-full">
           <label class="adm-label">Painting Photo</label>
-          <div class="adm-upload-wrap" id="qaUploadWrap" onclick="document.getElementById('qaFileInput').click()">
+          <div class="adm-upload-wrap" id="qaUploadWrap" onclick="if(!this.classList.contains('uploading'))document.getElementById('qaFileInput').click()">
             <div class="upload-shimmer"></div>
-            <input type="file" id="qaFileInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)"/>
+            <input type="file" id="qaFileInput" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoUpload(this)"/>
             <div id="qaUploadInner">
               <div class="upload-progress-ring" id="qaProgressRing">
                 <svg width="48" height="48" viewBox="0 0 48 48">
