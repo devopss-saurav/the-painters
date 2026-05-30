@@ -494,6 +494,34 @@ a[href*="behold.so"]{
   .f-row{grid-template-columns:1fr;}
 }
 
+
+/* ── ADMIN MOBILE ── */
+.adm-upload-wrap{
+  border:2px dashed rgba(201,168,76,.3);
+  padding:1.5rem;text-align:center;
+  cursor:pointer;transition:border-color .3s;
+  background:rgba(201,168,76,.03);
+  border-radius:2px;
+}
+.adm-upload-wrap:hover,.adm-upload-wrap:active{border-color:var(--gold);}
+@media(max-width:768px){
+  .adm-topbar{padding:.8rem 1rem;flex-wrap:wrap;gap:.5rem;}
+  .adm-tabs{gap:.3rem;flex-wrap:wrap;}
+  .adm-tab{padding:.3rem .6rem;font-size:.6rem;}
+  .adm-body{padding:1rem;}
+  .adm-grid{grid-template-columns:1fr;}
+  .adm-stats{grid-template-columns:1fr 1fr;gap:.6rem;}
+  .adm-stat{padding:.8rem;}
+  .adm-stat-n{font-size:1.5rem;}
+  .adm-settings-grid{grid-template-columns:1fr;}
+  .adm-table{font-size:.75rem;}
+  .adm-table th,.adm-table td{padding:.5rem .6rem;}
+  .adm-order-row{flex-direction:column;gap:.6rem;}
+  .adm-login-box{width:90%;padding:0 1rem;}
+  .adm-topbar .adm-logo{font-size:.85rem;}
+  .adm-close-btn{font-size:.65rem;padding:.3rem .6rem;}
+}
+
 /* ── ADMIN PANEL ── */
 #adminPanel{position:fixed;inset:0;z-index:1000;background:#0d0a07;display:none;flex-direction:column;overflow:hidden;}
 #adminPanel.open{display:flex;}
@@ -818,15 +846,6 @@ a[href*="behold.so"]{
 // ── DATA ──────────────────────────────────────────────
 const P=[
   {id:0,name:'Sacred Mandala',cat:'abstract',price:25000,dims:'20×20 in · Hand-painted on Canvas',badge:'New',img:'https://res.cloudinary.com/drodfg7bs/image/upload/v1779999426/download_vvr9ck.jpg',c:['#1a0a2e','#8b0000','#c9a84c','#1a1a4e']},
-  {id:1,name:'Monsoon Reverie',cat:'abstract',price:18500,dims:'24×30 in · Acrylic on Canvas',badge:'New',c:['#1a3a5c','#2e6b9e','#7fb3d3','#c4a35a']},
-  {id:2,name:'Valley at Dusk',cat:'landscape',price:24000,dims:'30×40 in · Oil on Canvas',badge:null,c:['#3d1f0e','#8b4513','#d2691e','#ffd700']},
-  {id:3,name:'Inner Bloom',cat:'floral',price:14000,dims:'20×24 in · Acrylic on Canvas',badge:'Sold',c:['#4a1028','#b5295e','#e8769a','#fce4ec']},
-  {id:4,name:'The Quiet Shore',cat:'landscape',price:32000,dims:'36×48 in · Oil on Canvas',badge:null,c:['#0a2744','#1565c0','#42a5f5','#e3f2fd']},
-  {id:5,name:'Golden Hour',cat:'abstract',price:21000,dims:'24×24 in · Mixed Media',badge:'New',c:['#3e2000','#a05000','#e08020','#ffc040']},
-  {id:6,name:'Portrait No. 7',cat:'portrait',price:28500,dims:'18×24 in · Oil on Canvas',badge:null,c:['#2c1810','#7d4e2c','#c4956a','#f0d5b5']},
-  {id:7,name:'Wildflower Field',cat:'floral',price:16500,dims:'24×36 in · Acrylic on Canvas',badge:null,c:['#1a3d1a','#4a8c4a','#98c774','#e8f5e9']},
-  {id:8,name:'Blue Meditation',cat:'abstract',price:19000,dims:'20×30 in · Acrylic on Canvas',badge:null,c:['#0d0d2b','#1a237e','#3f51b5','#9fa8da']},
-  {id:9,name:'Himalayan Dawn',cat:'landscape',price:38000,dims:'40×50 in · Oil on Canvas',badge:'Featured',c:['#1a0a2e','#7b2d8b','#e040fb','#fff9c4']},
 ];
 
 // ── CANVAS PAINT ──────────────────────────────────────
@@ -1646,6 +1665,76 @@ admTab = function(name, btn){
   if(name==='orders') admRenderOrders();
 };
 
+
+// ── CLOUDINARY DIRECT UPLOAD ──────────────────────────
+// Set your Cloudinary cloud name and unsigned upload preset
+const CLD_CLOUD = 'drodfg7bs';
+const CLD_PRESET = 'painters_unsigned'; // Create this in Cloudinary dashboard
+
+async function uploadToCloudinary(file, onProgress){
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLD_PRESET);
+    formData.append('folder', 'the-painters');
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.cloudinary.com/v1_1/'+CLD_CLOUD+'/image/upload');
+
+    xhr.upload.onprogress = (e) => {
+      if(e.lengthComputable && onProgress){
+        onProgress(Math.round((e.loaded/e.total)*100));
+      }
+    };
+
+    xhr.onload = () => {
+      const data = JSON.parse(xhr.responseText);
+      if(data.secure_url) resolve(data.secure_url);
+      else reject(new Error(data.error?.message || 'Upload failed'));
+    };
+    xhr.onerror = () => reject(new Error('Network error'));
+    xhr.send(formData);
+  });
+}
+
+async function handlePhotoUpload(input){
+  const file = input.files[0];
+  if(!file) return;
+
+  // Show preview immediately
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('qa-preview-img');
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+
+  // Show progress
+  const progress = document.getElementById('qaUploadProgress');
+  const bar = document.getElementById('qaProgressBar');
+  const text = document.getElementById('qaProgressText');
+  progress.style.display = 'block';
+  bar.style.width = '0%';
+  text.textContent = 'Uploading to cloud...';
+
+  try {
+    const url = await uploadToCloudinary(file, (pct) => {
+      bar.style.width = pct + '%';
+      text.textContent = 'Uploading... ' + pct + '%';
+    });
+    document.getElementById('qa-img').value = url;
+    bar.style.width = '100%';
+    text.textContent = '✅ Upload complete!';
+    toast('Photo uploaded! ✦');
+    setTimeout(() => progress.style.display = 'none', 2000);
+  } catch(err) {
+    text.textContent = '❌ Upload failed. Try URL instead.';
+    console.error('Upload error:', err);
+    toast('Upload failed — please create unsigned preset in Cloudinary');
+  }
+}
+
 </script>
 
 <!-- SECRET ADMIN TRIGGER COUNT -->
@@ -1700,7 +1789,24 @@ admTab = function(name, btn){
           <div class="adm-fg"><label class="adm-label">Size</label><input class="adm-input" id="qa-size" placeholder="24×30 in"/></div>
           <div class="adm-fg"><label class="adm-label">Medium</label><input class="adm-input" id="qa-medium" placeholder="Acrylic on Canvas"/></div>
         </div>
-        <div class="adm-fg adm-full"><label class="adm-label">Image URL (Google Drive / Cloudinary / any link)</label><input class="adm-input" id="qa-img" placeholder="https://..." oninput="admQPreview(this.value)"/></div>
+        <div class="adm-fg adm-full">
+          <label class="adm-label">Painting Photo</label>
+          <div class="adm-upload-wrap" id="qaUploadWrap" onclick="document.getElementById('qaFileInput').click()">
+            <input type="file" id="qaFileInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)"/>
+            <div id="qaUploadInner">
+              <div style="font-size:2rem;margin-bottom:.5rem">📷</div>
+              <div style="font-size:.8rem;color:var(--gold)">Tap to select photo</div>
+              <div style="font-size:.7rem;color:var(--muted);margin-top:.3rem">From gallery or camera</div>
+            </div>
+          </div>
+          <input class="adm-input" id="qa-img" placeholder="Or paste image URL..." oninput="admQPreview(this.value)" style="margin-top:.5rem"/>
+          <div id="qaUploadProgress" style="display:none;margin-top:.5rem">
+            <div style="background:rgba(201,168,76,.1);height:4px;border-radius:2px;overflow:hidden">
+              <div id="qaProgressBar" style="height:100%;background:var(--gold);width:0%;transition:width .3s"></div>
+            </div>
+            <div id="qaProgressText" style="font-size:.7rem;color:var(--gold);margin-top:.3rem;text-align:center">Uploading...</div>
+          </div>
+        </div>
         <div class="adm-img-prev" id="qa-preview"><span>Image preview</span><img id="qa-preview-img" alt=""/></div>
         <div class="adm-btns">
           <button class="adm-save-btn" onclick="admQuickSave()">Add Painting to Website →</button>
